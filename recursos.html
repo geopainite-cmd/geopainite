@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recursos Académicos | GeoPainite</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="page-progress"></div>
+<header class="header"><div class="container">
+  <h1 class="logo">Geo<span>Painite</span></h1>
+  <nav class="nav" id="main-nav"><ul>
+    <li><a href="index.html">Inicio</a></li><li><a href="campo.html">Campo</a></li>
+    <li><a href="cursos.html">Cursos</a></li><li><a href="diagramas.html">Diagramas</a></li>
+    <li><a href="repositorio.html">Repositorio</a></li><li><a href="recursos.html" class="active">Recursos</a></li>
+    <li><a href="comunidad.html">Comunidad</a></li><li><a href="tienda.html">Tienda</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul></nav>
+  <div class="header-actions">
+    <div class="header-search"><button class="search-icon-btn" tabindex="-1">🔍</button><input type="text" id="header-search" placeholder="Buscar..." autocomplete="off"><div id="search-dropdown"></div></div>
+    <button class="dark-toggle" id="dark-toggle">🌙</button><div id="auth-wrap"></div>
+    <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</div></header>
+
+<section class="page-hero"><div class="container">
+  <h2>Recursos Académicos</h2>
+  <p>Software especializado, bases de datos, cartografía digital y normativas técnicas para Ingeniería Geológica.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🗺 SIG & Cartografía</span>
+    <span class="hero-badge">🔬 Software Técnico</span>
+    <span class="hero-badge">📊 Bases de Datos</span>
+    <span class="hero-badge">📋 Normativas</span>
+  </div>
+</div></section>
+
+<main class="container">
+  <section class="section">
+    <h3>Software Especializado</h3>
+    <div class="grid">
+      <div class="card-img reveal">
+        <span class="badge badge-verde badge-abs">Libre</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🗺️</div>
+          <div class="card-overlay"><h4>QGIS</h4><p>SIG de código abierto para geoprocesamiento y análisis espacial.</p></div></div>
+        <div class="card-img-body"><h4>QGIS</h4><p>Sistema de Información Geográfica de código abierto.</p>
+          <p class="meta">Windows / Mac / Linux · Libre</p>
+          <a href="https://www.qgis.org/es/site/" target="_blank" rel="noopener" class="btn btn-sm">Sitio Oficial ↗</a></div>
+      </div>
+      <div class="card-img reveal">
+        <span class="badge badge-dorado badge-abs">Estructural</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🌐</div>
+          <div class="card-overlay"><h4>Stereonet</h4><p>Proyección estereográfica para análisis estructural.</p></div></div>
+        <div class="card-img-body"><h4>Stereonet</h4><p>Proyección estereográfica y análisis de orientaciones.</p>
+          <p class="meta">Win / Mac · Libre</p>
+          <button class="btn btn-sm disabled">Próximamente</button></div>
+      </div>
+      <div class="card-img reveal">
+        <span class="badge badge-purpura badge-abs">Petrografía</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🔬</div>
+          <div class="card-overlay"><h4>Petrograph</h4><p>Clasificación petrográfica con diagramas QAPF y TAS.</p></div></div>
+        <div class="card-img-body"><h4>Petrograph</h4><p>Software de clasificación petrográfica.</p>
+          <p class="meta">Windows · Comercial</p>
+          <button class="btn btn-sm disabled">Próximamente</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Bases de Datos Geológicas</h3>
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <span class="badge badge-verde" style="position:static;display:inline-block;margin-bottom:.7rem">Libre</span>
+        <h4>Mindat.org</h4>
+        <p>Base de datos internacional de minerales: propiedades, localizaciones y fotografías.</p>
+        <p class="meta">Acceso: Libre · Multilingüe</p>
+        <a href="https://www.mindat.org/" target="_blank" rel="noopener" class="btn btn-sm">Visitar →</a>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-verde" style="position:static;display:inline-block;margin-bottom:.7rem">Libre</span>
+        <h4>USGS Mineral Resources</h4>
+        <p>Información técnica oficial sobre depósitos minerales y estadísticas de producción.</p>
+        <p class="meta">Acceso: Libre · Inglés</p>
+        <a href="https://www.usgs.gov/" target="_blank" rel="noopener" class="btn btn-sm">Visitar →</a>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-verde" style="position:static;display:inline-block;margin-bottom:.7rem">Perú</span>
+        <h4>INGEMMET Geocatmin</h4>
+        <p>Geología, minería y recursos del Perú. Cartografía oficial del INGEMMET.</p>
+        <p class="meta">Acceso: Libre · Español</p>
+        <a href="https://geocatmin.ingemmet.gob.pe/" target="_blank" rel="noopener" class="btn btn-sm">Visitar →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Cartografía Digital</h3>
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <span class="badge badge-dorado" style="position:static;display:inline-block;margin-bottom:.7rem">WMS</span>
+        <h4>OneGeology (WMS Global)</h4>
+        <p>Mapas geológicos escala 1:1,000,000. Formato WMS compatible con QGIS.</p>
+        <p class="meta">Acceso: Libre · Digital/WMS</p>
+        <a href="http://www.onegeology.org/" target="_blank" rel="noopener" class="btn btn-sm">Visitar →</a>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-verde" style="position:static;display:inline-block;margin-bottom:.7rem">Perú</span>
+        <h4>MINEM Normativas</h4>
+        <p>Normativa peruana que regula la exploración y operación minera.</p>
+        <p class="meta">Acceso: Libre · Español</p>
+        <a href="https://www.minem.gob.pe/" target="_blank" rel="noopener" class="btn btn-sm">Visitar →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><div class="container">
+  <div class="footer-links">
+    <a href="index.html">Inicio</a><a href="repositorio.html">Repositorio</a>
+    <a href="diagramas.html">Diagramas</a><a href="contacto.html">Contacto</a>
+  </div>
+  <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+</div></footer>
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+</body>
+</html>

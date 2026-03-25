@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramas Técnicos | GeoPainite</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav"><ul>
+      <li><a href="index.html">Inicio</a></li><li><a href="campo.html">Campo</a></li>
+      <li><a href="cursos.html">Cursos</a></li><li><a href="diagramas.html" class="active">Diagramas</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li><li><a href="recursos.html">Recursos</a></li>
+      <li><a href="comunidad.html">Comunidad</a></li><li><a href="tienda.html">Tienda</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul></nav>
+    <div class="header-actions">
+      <div class="header-search"><button class="search-icon-btn" tabindex="-1">🔍</button><input type="text" id="header-search" placeholder="Buscar..." autocomplete="off"><div id="search-dropdown"></div></div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>Diagramas Técnicos</h2>
+    <p>Visualización e interpretación de los principales diagramas utilizados en Ingeniería Geológica.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">🔷 Petrología Ígnea</span>
+      <span class="hero-badge">🌊 Sedimentología</span>
+      <span class="hero-badge">⚡ Estructural</span>
+      <span class="hero-badge">📊 Análisis</span>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+  <section class="section">
+    <h3>Petrología Ígnea</h3>
+    <div class="grid">
+      <div class="card-img reveal" onclick="openDiagram('qapf')">
+        <span class="badge badge-purpura badge-abs">IUGS</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🔷</div>
+          <div class="card-overlay"><h4>Diagrama QAPF</h4><p>Clasificación modal de rocas plutónicas y volcánicas.</p></div></div>
+        <div class="card-img-body"><h4>Diagrama QAPF</h4><p>Clasificación mineralógica modal. Estándar IUGS.</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('qapf')">Ver Diagrama</button></div>
+      </div>
+      <div class="card-img reveal" onclick="openDiagram('tas')">
+        <span class="badge badge-rojo badge-abs">Geoquímica</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🌡️</div>
+          <div class="card-overlay"><h4>Diagrama TAS</h4><p>Total Álcalis vs SiO₂.</p></div></div>
+        <div class="card-img-body"><h4>Diagrama TAS</h4><p>Clasificación de volcanitas. Campos Le Bas et al. (1986).</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('tas')">Ver Diagrama</button></div>
+      </div>
+      <div class="card-img reveal" onclick="openDiagram('afm')">
+        <span class="badge badge-dorado badge-abs">Ternario</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🔺</div>
+          <div class="card-overlay"><h4>Diagrama AFM</h4><p>Ternario de evolución magmática.</p></div></div>
+        <div class="card-img-body"><h4>Diagrama AFM</h4><p>Ternario Na₂O+K₂O – FeO(t) – MgO.</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('afm')">Ver Diagrama</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Sedimentología</h3>
+    <div class="grid">
+      <div class="card-img reveal" onclick="openDiagram('granu')">
+        <span class="badge badge-verde badge-abs">Análisis</span>
+        <div class="card-img-wrap"><div class="img-placeholder">📊</div>
+          <div class="card-overlay"><h4>Curva Granulométrica</h4><p>Distribución acumulativa de tamaño de partícula.</p></div></div>
+        <div class="card-img-body"><h4>Curva Granulométrica</h4><p>Parámetros Cu y Cc. Clasificación USCS.</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('granu')">Ver Diagrama</button></div>
+      </div>
+      <div class="card-img reveal" onclick="openDiagram('folk')">
+        <span class="badge badge-verde badge-abs">Textural</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🔵</div>
+          <div class="card-overlay"><h4>Triángulo de Folk</h4><p>Clasificación textural de areniscas.</p></div></div>
+        <div class="card-img-body"><h4>Triángulo de Folk (1974)</h4><p>Clasificación de areniscas: Q, F y fragmentos líticos.</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('folk')">Ver Diagrama</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Geología Estructural</h3>
+    <div class="grid">
+      <div class="card-img reveal" onclick="openDiagram('schmidt')">
+        <span class="badge badge-rojo badge-abs">Estereografía</span>
+        <div class="card-img-wrap"><div class="img-placeholder">🌐</div>
+          <div class="card-overlay"><h4>Red de Schmidt</h4><p>Proyección estereográfica de igual área.</p></div></div>
+        <div class="card-img-body"><h4>Red de Schmidt</h4><p>Proyección para análisis estructural de campo.</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('schmidt')">Ver Diagrama</button></div>
+      </div>
+      <div class="card-img reveal" onclick="openDiagram('mohr')">
+        <span class="badge badge-purpura badge-abs">Esfuerzos</span>
+        <div class="card-img-wrap"><div class="img-placeholder">⚙️</div>
+          <div class="card-overlay"><h4>Círculo de Mohr</h4><p>Estado de esfuerzos en un punto.</p></div></div>
+        <div class="card-img-body"><h4>Círculo de Mohr</h4><p>Criterios de rotura Coulomb-Mohr.</p>
+          <button class="btn btn-sm" onclick="event.stopPropagation();openDiagram('mohr')">Ver Diagrama</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Guías Descargables</h3>
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <h4>Guía de Petrología Ígnea</h4>
+        <p>Clasificación QAPF aplicada, ejemplos resueltos y criterios de identificación mineral.</p>
+        <p class="meta">📄 PDF · Nivel: Intermedio</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(() => Toast.show('Descargando guía...','success'))">⬇ Descargar PDF</button>
+      </div>
+      <div class="card reveal">
+        <h4>Resumen de Diagramas Geológicos</h4>
+        <p>Compilación de los diagramas más utilizados con ejes, campos y criterios de lectura.</p>
+        <p class="meta">📄 PDF · Próximamente</p>
+        <button class="btn btn-sm disabled">Próximamente</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL DIAGRAMA -->
+<div class="modal-overlay" id="modal-diag" role="dialog" aria-modal="true">
+  <div class="modal-box" style="max-width:640px">
+    <div class="modal-head">
+      <h3 id="diag-title">Diagrama</h3>
+      <button class="modal-close" onclick="closeDiagram()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="diag-content" style="text-align:center;padding:1rem 0;font-size:5rem;min-height:200px;display:flex;align-items:center;justify-content:center;background:var(--bg-alt);border-radius:var(--radius-sm);margin-bottom:1rem"></div>
+      <p id="diag-desc" style="font-size:.9rem;color:var(--text-secondary);line-height:1.7"></p>
+      <div id="diag-meta" style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a><a href="cursos.html">Cursos</a>
+      <a href="repositorio.html">Repositorio</a><a href="contacto.html">Contacto</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+  </div>
+</footer>
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<script>
+const DIAGRAMAS = {
+  qapf:{title:'Diagrama QAPF',emoji:'🔷',desc:'El diagrama QAPF clasifica rocas ígneas según la proporción modal de cuatro grupos minerales: Q (cuarzo), A (feldespato álcalico), P (plagioclasa) y F (feldespatoide). Es el estándar IUGS desde 1989.',tags:['IUGS 1989','Modal','Plutónicas','Volcánicas']},
+  tas:{title:'Diagrama TAS',emoji:'🌡️',desc:'El diagrama TAS (Total Álcalis vs SiO₂) clasifica rocas volcánicas según contenido geoquímico. Eje X: SiO₂ (%), Eje Y: Na₂O + K₂O (%). Definido por Le Bas et al. (1986).',tags:['Le Bas 1986','Geoquímica','Volcánicas','SiO₂']},
+  afm:{title:'Diagrama AFM',emoji:'🔺',desc:'Ternario AFM muestra la evolución magmática. Distingue serie calco-alcalina de toleítica. La línea divisoria de Kuno (1968) separa ambas series.',tags:['Kuno 1968','Ternario','Series magmáticas']},
+  granu:{title:'Curva Granulométrica',emoji:'📊',desc:'Curva acumulativa que permite determinar D₁₀, D₃₀, D₅₀ y D₆₀. A partir de estos valores se calcula Cu = D60/D10 y Cc = D30²/(D10×D60) para clasificar suelos USCS.',tags:['USCS','Cu y Cc','D50','Tamizado']},
+  folk:{title:'Triángulo de Folk (1974)',emoji:'🔵',desc:'Clasifica areniscas según Q (cuarzo+cuarcita+chert), F (feldespatos) y L (fragmentos líticos). Define campos como arenita cuarzosa, arcosa y litarenita.',tags:['Folk 1974','Areniscas','Q-F-L']},
+  schmidt:{title:'Red de Schmidt',emoji:'🌐',desc:'Proyección estereográfica equiareal ideal para análisis estadístico de orientaciones estructurales. Representa planos como grandes círculos y líneas como puntos.',tags:['Estereografía','Igual área','Planos','Polos']},
+  mohr:{title:'Círculo de Mohr',emoji:'⚙️',desc:'Representa el estado tensional en un punto del macizo rocoso. El criterio Coulomb-Mohr define el ángulo de fricción interna (φ) y la cohesión (c).',tags:['Geomecánica','Coulomb-Mohr','Esfuerzos']}
+}
+
+function openDiagram(id){
+  const d=DIAGRAMAS[id];if(!d)return
+  document.getElementById('diag-title').textContent=d.title
+  document.getElementById('diag-content').textContent=d.emoji
+  document.getElementById('diag-desc').textContent=d.desc
+  document.getElementById('diag-meta').innerHTML=d.tags.map(t=>`<span style="background:var(--vino-light);color:var(--vino);padding:.2rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700">${t}</span>`).join('')
+  document.getElementById('modal-diag').classList.add('open')
+}
+function closeDiagram(){document.getElementById('modal-diag').classList.remove('open')}
+document.getElementById('modal-diag').addEventListener('click',e=>{if(e.target===document.getElementById('modal-diag'))closeDiagram()})
+window.openDiagram=openDiagram
+window.closeDiagram=closeDiagram
+</script>
+</body>
+</html>

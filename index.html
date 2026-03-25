@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoPainite | Plataforma Académica de Ingeniería Geológica</title>
+  <meta name="description" content="GeoPainite: plataforma académica con cursos, material técnico y recursos de Ingeniería Geológica.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="page-progress"></div>
+
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="campo.html">Campo</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="diagramas.html">Diagramas</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="recursos.html">Recursos</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="tienda.html">Tienda</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <button class="search-icon-btn" tabindex="-1">🔍</button>
+        <input type="text" id="header-search" placeholder="Buscar..." autocomplete="off">
+        <div id="search-dropdown"></div>
+      </div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>Bienvenido a GeoPainite</h1>
+    <p>Plataforma académica de Ingeniería Geológica: cursos, recursos técnicos, galería de campo y comunidad para estudiantes y profesionales.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">🎓 26 Cursos</span>
+      <span class="hero-badge">📄 40+ PDFs</span>
+      <span class="hero-badge">💎 24 Minerales</span>
+      <span class="hero-badge">🧮 6 Calculadoras</span>
+      <span class="hero-badge">🇵🇪 Enfoque Perú</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num" data-target="26">0</span>
+        <span class="stat-label">Cursos</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="40">0</span>
+        <span class="stat-label">PDFs</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="24">0</span>
+        <span class="stat-label">Minerales</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="6">0</span>
+        <span class="stat-label">Calculadoras</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <section class="section">
+    <h2>Explora la Plataforma</h2>
+    <p>GeoPainite centraliza todo el material académico organizado por áreas.</p>
+    <div class="grid">
+      <div class="card-img reveal" onclick="location.href='cursos.html'">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">🎓</div>
+          <div class="card-overlay"><h4>Cursos Académicos</h4><p>26 cursos de Ingeniería Geológica.</p></div>
+        </div>
+        <div class="card-img-body">
+          <h4>Cursos</h4>
+          <p>Contenido organizado por asignatura con material propio.</p>
+          <a href="cursos.html" class="btn btn-sm">Ver Cursos</a>
+        </div>
+      </div>
+
+      <div class="card-img reveal" onclick="location.href='campo.html'">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">🪨</div>
+          <div class="card-overlay"><h4>Galería de Campo</h4><p>Fotografías técnicas con descripción geológica.</p></div>
+        </div>
+        <div class="card-img-body">
+          <h4>Campo</h4>
+          <p>Vetas, fallas, estructuras y afloramientos comentados.</p>
+          <a href="campo.html" class="btn btn-sm">Ver Galería</a>
+        </div>
+      </div>
+
+      <div class="card-img reveal" onclick="location.href='repositorio.html'">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">📄</div>
+          <div class="card-overlay"><h4>Repositorio Académico</h4><p>Guías técnicas y documentos descargables.</p></div>
+        </div>
+        <div class="card-img-body">
+          <h4>Repositorio</h4>
+          <p>PDFs técnicos organizados por asignatura.</p>
+          <a href="repositorio.html" class="btn btn-sm">Ver Repositorio</a>
+        </div>
+      </div>
+
+      <div class="card-img reveal" onclick="location.href='diagramas.html'">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">📐</div>
+          <div class="card-overlay"><h4>Diagramas Técnicos</h4><p>QAPF, TAS, AFM, granulometría y más.</p></div>
+        </div>
+        <div class="card-img-body">
+          <h4>Diagramas</h4>
+          <p>Visualización e interpretación de diagramas geológicos.</p>
+          <a href="diagramas.html" class="btn btn-sm">Ver Diagramas</a>
+        </div>
+      </div>
+
+      <div class="card-img reveal" onclick="location.href='comunidad.html'">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">👥</div>
+          <div class="card-overlay"><h4>Comunidad</h4><p>Sube tus trabajos y gana créditos.</p></div>
+        </div>
+        <div class="card-img-body">
+          <h4>Comunidad</h4>
+          <p>Comparte material y construye conocimiento colectivo.</p>
+          <a href="comunidad.html" class="btn btn-sm">Ir a Comunidad</a>
+        </div>
+      </div>
+
+      <div class="card-img reveal" onclick="location.href='tienda.html'">
+        <div class="card-img-wrap">
+          <div class="img-placeholder">💎</div>
+          <div class="card-overlay"><h4>Tienda de Minerales</h4><p>Especímenes auténticos de colección.</p></div>
+        </div>
+        <div class="card-img-body">
+          <h4>Tienda</h4>
+          <p>Minerales peruanos e internacionales de colección.</p>
+          <a href="tienda.html" class="btn btn-sm">Ver Tienda</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SISTEMA DE CRÉDITOS INFO -->
+  <section class="section">
+    <h2>¿Cómo funcionan los créditos?</h2>
+    <p>GeoPainite usa un sistema de créditos para acceder al contenido y recompensar a quienes aportan.</p>
+    <div class="grid grid-3">
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.7rem">🎁</div>
+        <h4>10 créditos gratis</h4>
+        <p>Al registrarte recibes 10 créditos para empezar a explorar el contenido.</p>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.7rem">📥</div>
+        <h4>Gana créditos</h4>
+        <p>Sube material de calidad y gana créditos cada vez que alguien lo descargue.</p>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.7rem">💰</div>
+        <h4>Recarga créditos</h4>
+        <p>Compra paquetes de créditos vía Yape o WhatsApp desde S/10.</p>
+        <a href="creditos.html" class="btn btn-sm btn-dorado">Ver paquetes</a>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.7rem">📤</div>
+        <h4>Descarga material</h4>
+        <p>Accede a exámenes, apuntes, tesis y prácticas usando tus créditos.</p>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.7rem">⭐</div>
+        <h4>Premium</h4>
+        <p>Usuarios premium tienen descuentos en créditos y accesos especiales.</p>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.7rem">🔒</div>
+        <h4>Seguro y controlado</h4>
+        <p>Sin descargas directas. Todo pasa por el sistema de créditos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Cursos Destacados</h2>
+    <div class="grid grid-4">
+      <div class="course-card reveal" onclick="location.href='cursos.html'">
+        <div class="cc-icon">🌋</div>
+        <div class="cc-name">Petrología Ígnea</div>
+        <div class="cc-desc">Clasificación QAPF, texturas y ambientes magmáticos.</div>
+        <div class="cc-meta"><span class="cc-pill">Petrología</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+      <div class="course-card reveal" onclick="location.href='cursos.html'">
+        <div class="cc-icon">💎</div>
+        <div class="cc-name">Mineralogía</div>
+        <div class="cc-desc">Propiedades físicas, ópticas y cristalográficas.</div>
+        <div class="cc-meta"><span class="cc-pill">Mineralogía</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+      <div class="course-card reveal" onclick="location.href='cursos.html'">
+        <div class="cc-icon">🗺</div>
+        <div class="cc-name">Geología Estructural</div>
+        <div class="cc-desc">Fallas, pliegues y proyección estereográfica.</div>
+        <div class="cc-meta"><span class="cc-pill">Estructural</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+      <div class="course-card reveal" onclick="location.href='cursos.html'">
+        <div class="cc-icon">⛏</div>
+        <div class="cc-name">Yacimientos Minerales</div>
+        <div class="cc-desc">Tipología de depósitos y exploración mineral.</div>
+        <div class="cc-meta"><span class="cc-pill">Económica</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem">
+      <a href="cursos.html" class="btn">Ver todos los cursos →</a>
+    </div>
+  </section>
+
+</main>
+
+<div class="banner-cta">
+  <div class="container">
+    <h2>¿Tienes alguna consulta?</h2>
+    <p>Contáctanos para solicitar material, proponer colaboraciones o resolver dudas académicas.</p>
+    <a href="contacto.html" class="btn btn-dorado">Ir a Contacto →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="cursos.html">Cursos</a>
+      <a href="repositorio.html">Repositorio</a>
+      <a href="comunidad.html">Comunidad</a>
+      <a href="creditos.html">Créditos</a>
+      <a href="tienda.html">Tienda</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp;
+      <a href="privacidad.html">Política de Privacidad</a> &nbsp;|&nbsp;
+      <a href="terminos.html">Términos</a>
+    </p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/archivos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+</body>
+</html>

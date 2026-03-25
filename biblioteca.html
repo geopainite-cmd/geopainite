@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Académica | GeoPainite</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="page-progress"></div>
+<header class="header"><div class="container">
+  <h1 class="logo">Geo<span>Painite</span></h1>
+  <nav class="nav" id="main-nav"><ul>
+    <li><a href="index.html">Inicio</a></li><li><a href="campo.html">Campo</a></li>
+    <li><a href="cursos.html">Cursos</a></li><li><a href="diagramas.html">Diagramas</a></li>
+    <li><a href="repositorio.html">Repositorio</a></li><li><a href="recursos.html">Recursos</a></li>
+    <li><a href="comunidad.html">Comunidad</a></li><li><a href="tienda.html">Tienda</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul></nav>
+  <div class="header-actions">
+    <div class="header-search"><button class="search-icon-btn" tabindex="-1">🔍</button><input type="text" id="header-search" placeholder="Buscar..." autocomplete="off"><div id="search-dropdown"></div></div>
+    <button class="dark-toggle" id="dark-toggle">🌙</button><div id="auth-wrap"></div>
+    <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</div></header>
+
+<section class="page-hero"><div class="container">
+  <h2>Biblioteca Académica</h2>
+  <p>Material académico organizado por áreas de Ingeniería Geológica. Referencias bibliográficas y documentos técnicos seleccionados.</p>
+</div></section>
+
+<main class="container">
+  <section class="section">
+    <h3>Organización de la Biblioteca</h3>
+    <p>La biblioteca está estructurada según las principales asignaturas del plan de estudios. Cada área contiene referencias bibliográficas seleccionadas con criterio académico formal. El acceso al material descargable requiere créditos.</p>
+  </section>
+
+  <section class="section">
+    <h3>Petrología</h3>
+    <div class="grid">
+      <div class="card reveal">
+        <span class="badge badge-purpura" style="position:static;display:inline-block;margin-bottom:.8rem">Ígneas</span>
+        <h4>Petrología de Rocas Ígneas</h4>
+        <p>Textos y referencias sobre mineralogía, clasificación QAPF, texturas y ambientes de formación.</p>
+        <p class="meta">Área: Petrología Ígnea · Nivel: Intermedio–Avanzado</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(()=>Toast.show('Accediendo al material','success'))">Ver Material</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-dorado" style="position:static;display:inline-block;margin-bottom:.8rem">Metamórficas</span>
+        <h4>Petrología Metamórfica</h4>
+        <p>Material sobre metamorfismo regional y de contacto, facies metamórficas y minerales índice.</p>
+        <p class="meta">Área: Petrología Metamórfica · Nivel: Avanzado</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(()=>Toast.show('Accediendo al material','success'))">Ver Material</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-verde" style="position:static;display:inline-block;margin-bottom:.8rem">Sedimentarias</span>
+        <h4>Petrología Sedimentaria</h4>
+        <p>Referencias sobre clasificación de rocas sedimentarias clásticas, carbonáticas y evaporíticas.</p>
+        <p class="meta">Área: Petrología Sedimentaria · Nivel: Básico–Intermedio</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(()=>Toast.show('Accediendo al material','success'))">Ver Material</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Geología Estructural</h3>
+    <div class="grid">
+      <div class="card reveal">
+        <span class="badge badge-rojo" style="position:static;display:inline-block;margin-bottom:.8rem">Fallas</span>
+        <h4>Sistemas de Fallamiento</h4>
+        <p>Material sobre cinemática de fallas, clasificación y estrías de deslizamiento.</p>
+        <p class="meta">Área: Geología Estructural · Nivel: Intermedio</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(()=>Toast.show('Accediendo al material','success'))">Ver Material</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-purpura" style="position:static;display:inline-block;margin-bottom:.8rem">Estereografía</span>
+        <h4>Proyección Estereográfica</h4>
+        <p>Fundamentos y ejercicios prácticos de la red de Schmidt y Wulff.</p>
+        <p class="meta">Área: Geología Estructural · Nivel: Básico–Intermedio</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(()=>Toast.show('Accediendo al material','success'))">Ver Material</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Geología Económica</h3>
+    <div class="grid">
+      <div class="card reveal">
+        <span class="badge badge-dorado" style="position:static;display:inline-block;margin-bottom:.8rem">Depósitos</span>
+        <h4>Tipología de Depósitos Minerales</h4>
+        <p>Clasificación de depósitos: magmáticos, hidrotermales, sedimentarios exhalativos y de placer.</p>
+        <p class="meta">Área: Geología Económica · Nivel: Introductorio–Intermedio</p>
+        <button class="btn btn-sm" onclick="Auth.requireLogin(()=>Toast.show('Accediendo al material','success'))">Ver Material</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-rojo" style="position:static;display:inline-block;margin-bottom:.8rem">Próximamente</span>
+        <h4>Exploración Mineral</h4>
+        <p>Métodos de exploración geológica, muestreo e interpretación de anomalías.</p>
+        <p class="meta">Área: Geología Económica · Próximamente</p>
+        <button class="btn btn-sm disabled">Próximamente</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="banner-cta"><div class="container">
+  <h2>¿Buscas algo específico?</h2>
+  <p>Si no encuentras el material que necesitas, contáctanos directamente.</p>
+  <a href="contacto.html" class="btn btn-dorado">Solicitar Material →</a>
+</div></div>
+
+<footer class="footer"><div class="container">
+  <div class="footer-links">
+    <a href="index.html">Inicio</a><a href="repositorio.html">Repositorio</a>
+    <a href="recursos.html">Recursos</a><a href="contacto.html">Contacto</a>
+  </div>
+  <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+</div></footer>
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+</body>
+</html>

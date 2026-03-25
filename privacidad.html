@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidad | GeoPainite</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .policy-wrap{max-width:760px;margin:0 auto;padding:3rem 1.5rem 5rem}
+    .policy-section{margin-bottom:2.2rem}
+    .policy-section h2{font-family:var(--font-title);font-size:1.4rem;font-weight:700;color:var(--vino);margin-bottom:.7rem}
+    [data-theme="dark"] .policy-section h2{color:var(--dorado-light)}
+    .policy-section h2::after{display:none}
+    .policy-section p,.policy-section ul li{font-size:.9rem;color:var(--text-secondary);line-height:1.75;margin-bottom:.5rem}
+    .policy-section ul{padding-left:1.2rem}
+    .policy-section ul li::marker{color:var(--vino)}
+    .policy-box{border-radius:10px;padding:.9rem 1.1rem;font-size:.86rem;color:var(--text-secondary);line-height:1.65;margin:1rem 0;border-left:3px solid var(--vino);background:var(--vino-light)}
+    hr{border:none;border-top:1px solid var(--border);margin:2rem 0}
+  </style>
+</head>
+<body>
+<div id="page-progress"></div>
+<header class="header"><div class="container">
+  <h1 class="logo">Geo<span>Painite</span></h1>
+  <nav class="nav" id="main-nav"><ul>
+    <li><a href="index.html">Inicio</a></li><li><a href="cursos.html">Cursos</a></li>
+    <li><a href="tienda.html">Tienda</a></li><li><a href="contacto.html">Contacto</a></li>
+  </ul></nav>
+  <div class="header-actions">
+    <button class="dark-toggle" id="dark-toggle">🌙</button>
+    <div id="auth-wrap"></div>
+  </div>
+</div></header>
+
+<section class="page-hero"><div class="container">
+  <h2>Política de Privacidad</h2>
+  <p>Información sobre cómo GeoPainite trata tus datos personales.</p>
+  <div class="hero-badges"><span class="hero-badge">🗓 Última actualización: enero 2026</span><span class="hero-badge">🇵🇪 Ley N° 29733 – Perú</span></div>
+</div></section>
+
+<div class="policy-wrap">
+  <div class="policy-box"><strong>Resumen:</strong> GeoPainite recopila únicamente los datos necesarios para procesar pedidos y consultas. No vendemos ni compartimos tu información personal con terceros.</div>
+
+  <div class="policy-section"><h2>1. Responsable del tratamiento</h2>
+    <p>GeoPainite — Plataforma académica y tienda de minerales — Perú. WhatsApp: +51 914 622 770. Normativa: Ley N° 29733.</p></div><hr>
+
+  <div class="policy-section"><h2>2. Datos que recopilamos</h2>
+    <ul><li>Formulario de contacto: nombre, correo, asunto, mensaje</li>
+    <li>Registro en plataforma: nombre, correo, contraseña (encriptada)</li>
+    <li>Pedidos en tienda: nombre, lista de productos</li>
+    <li>Navegación: páginas visitadas (anónimo)</li></ul>
+    <div class="policy-box"><strong>✓ No recopilamos:</strong> datos bancarios, documentos de identidad, ni información sensible.</div></div><hr>
+
+  <div class="policy-section"><h2>3. Finalidad del uso</h2>
+    <ul><li>Gestión de pedidos y coordinar entregas</li>
+    <li>Atención al cliente y consultas académicas</li>
+    <li>Gestionar el sistema de créditos</li>
+    <li>Mejora anónima del servicio</li></ul></div><hr>
+
+  <div class="policy-section"><h2>4. Sistema de créditos</h2>
+    <p>Las transacciones de créditos (compras, descargas, subidas) quedan registradas en nuestra base de datos con fines de control y auditoría del sistema. Este historial es privado y solo accesible por el usuario y el administrador.</p></div><hr>
+
+  <div class="policy-section"><h2>5. Cookies</h2>
+    <p>Usamos únicamente cookies técnicas: preferencia de tema (claro/oscuro) y sesión de usuario. No hay cookies de seguimiento publicitario.</p></div><hr>
+
+  <div class="policy-section"><h2>6. Tus derechos</h2>
+    <p>Conforme a la Ley N° 29733, tienes derecho a: acceso, rectificación, cancelación, oposición y revocación del consentimiento. Ejércelos contactándonos por WhatsApp.</p></div><hr>
+
+  <div class="policy-section"><h2>7. Seguridad</h2>
+    <ul><li>Contraseñas encriptadas (nunca en texto plano)</li>
+    <li>Archivos protegidos con URLs firmadas de tiempo limitado</li>
+    <li>Sin almacenamiento de datos bancarios</li>
+    <li>Acceso restringido solo al responsable</li></ul></div><hr>
+
+  <div class="policy-section"><h2>8. Contacto</h2>
+    <p>Para consultas sobre privacidad: <a href="https://wa.me/+51914622770" target="_blank">WhatsApp</a> o <a href="contacto.html">formulario de contacto</a>. Respondemos en máximo 15 días hábiles.</p></div>
+</div>
+
+<footer class="footer"><div class="container">
+  <div class="footer-links"><a href="index.html">Inicio</a><a href="terminos.html">Términos</a><a href="contacto.html">Contacto</a></div>
+  <p>&copy; 2026 GeoPainite</p>
+</div></footer>
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+</body>
+</html>

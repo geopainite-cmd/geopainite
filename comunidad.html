@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comunidad | GeoPainite</title>
+  <meta name="description" content="Comunidad académica GeoPainite: comparte trabajos, gana créditos y valora el aporte de otros.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .star.filled { color: var(--dorado); }
+    .info-box ul li {
+      padding: .42rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .84rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .info-box ul li:last-child { border-bottom: none; }
+
+    /* Archivos grid */
+    .archivo-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--tr);
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+    .archivo-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-med);
+      transform: translateY(-3px);
+    }
+    .ac-header { display: flex; align-items: flex-start; gap: .7rem; }
+    .ac-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: var(--vino-light);
+      display: flex; align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .ac-title {
+      font-family: var(--font-title);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--vino);
+      line-height: 1.25;
+    }
+    [data-theme="dark"] .ac-title { color: var(--dorado-light); }
+    .ac-autor { font-size: .75rem; color: var(--text-muted); margin-top: .15rem; }
+    .ac-desc { font-size: .84rem; color: var(--text-secondary); line-height: 1.6; }
+    .ac-meta {
+      display: flex; gap: .4rem;
+      flex-wrap: wrap; align-items: center;
+      margin-top: auto;
+    }
+    .ac-pill {
+      font-size: .67rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .4px;
+      padding: .2rem .6rem; border-radius: 20px;
+      background: var(--vino-light); color: var(--vino);
+      border: 1px solid var(--border);
+    }
+    [data-theme="dark"] .ac-pill { background: var(--dorado-bg); color: var(--dorado-light); }
+    .ac-costo {
+      margin-left: auto;
+      font-size: .78rem; font-weight: 800;
+      color: var(--dorado);
+      background: var(--dorado-bg);
+      padding: .2rem .6rem;
+      border-radius: 20px;
+    }
+    .ac-stars { display: flex; gap: .1rem; }
+    .ac-star { font-size: .9rem; color: var(--dorado); }
+
+    /* Subida de archivos */
+    .drop-zone {
+      border: 2.5px dashed var(--border-med);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--tr);
+      background: var(--surface);
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--vino);
+      background: var(--vino-light);
+    }
+    .dz-icon { font-size: 2.5rem; display: block; margin-bottom: .6rem; }
+
+    .file-preview {
+      display: none; align-items: center; gap: .8rem;
+      padding: .9rem 1.1rem;
+      background: var(--vino-light);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.2rem;
+    }
+    .file-preview.show { display: flex; }
+    .fp-remove { background: none; border: none; color: var(--rojo); cursor: pointer; font-size: 1.1rem; }
+
+    .creditos-preview {
+      background: linear-gradient(135deg, rgba(201,147,58,.08), rgba(75,32,96,.06));
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      display: flex; align-items: center; gap: .8rem;
+    }
+
+    .progress-bar {
+      display: none; height: 6px; border-radius: 99px;
+      background: var(--bg-alt); margin-bottom: 1rem; overflow: hidden;
+    }
+    .progress-bar.show { display: block; }
+    .progress-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--vino), var(--purpura));
+      width: 0%; transition: width .3s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="campo.html">Campo</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="diagramas.html">Diagramas</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="recursos.html">Recursos</a></li>
+        <li><a href="comunidad.html" class="active">Comunidad</a></li>
+        <li><a href="tienda.html">Tienda</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <button class="search-icon-btn" tabindex="-1">🔍</button>
+        <input type="text" id="header-search" placeholder="Buscar..." autocomplete="off">
+        <div id="search-dropdown"></div>
+      </div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>Comunidad Académica</h2>
+    <p>Comparte material, gana créditos y construye conocimiento colectivo en Ingeniería Geológica.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">📤 Sube y gana créditos</span>
+      <span class="hero-badge">📥 Descarga con créditos</span>
+      <span class="hero-badge">⭐ Valoraciones</span>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+  <section class="section">
+
+    <div class="tabs-bar">
+      <button class="tab-btn active" data-tab="explorar">📚 Explorar</button>
+      <button class="tab-btn" data-tab="subir">📤 Subir Trabajo</button>
+      <button class="tab-btn" data-tab="top">⭐ Mejor Valorados</button>
+      <button class="tab-btn" data-tab="mis">👤 Mis Archivos</button>
+    </div>
+
+    <!-- ── TAB EXPLORAR ── -->
+    <div class="tab-pane active" id="tab-explorar">
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.2rem;align-items:center">
+        <div class="page-search-wrap" style="margin-bottom:0">
+          <span class="ps-icon">🔍</span>
+          <input type="text" id="buscar-archivos" placeholder="Buscar material...">
+        </div>
+        <div class="filter-bar" style="margin:0">
+          <button class="filter-btn active" data-tipo="all">Todos</button>
+          <button class="filter-btn" data-tipo="examen">📝 Exámenes</button>
+          <button class="filter-btn" data-tipo="apunte">📒 Apuntes</button>
+          <button class="filter-btn" data-tipo="tesis">🎓 Tesis</button>
+          <button class="filter-btn" data-tipo="practica">🔬 Prácticas</button>
+        </div>
+      </div>
+
+      <p class="result-count" id="count-archivos">Cargando...</p>
+
+      <div class="grid" id="grid-archivos">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted)">
+          <div style="font-size:2.5rem;margin-bottom:.5rem">📚</div>
+          <p>Cargando archivos de la comunidad...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB SUBIR ── -->
+    <div class="tab-pane" id="tab-subir">
+      <div style="display:grid;grid-template-columns:1fr 270px;gap:2rem;align-items:start">
+
+        <div>
+          <h3>Subir tu Material</h3>
+          <p style="margin-bottom:1.5rem">
+            Comparte tu trabajo con la comunidad y
+            <strong style="color:var(--vino)">gana créditos</strong>
+            cuando sea aprobado y descargado.
+          </p>
+
+          <div id="upload-login-msg" style="display:none;padding:1.5rem;background:var(--vino-light);border-radius:var(--radius);border:1.5px solid var(--border);text-align:center;margin-bottom:1.5rem">
+            <p style="font-size:.9rem;color:var(--text-secondary);margin-bottom:.8rem">
+              Debes iniciar sesión para subir archivos.
+            </p>
+            <button class="btn btn-sm" onclick="ModalAuth.open()">Iniciar sesión</button>
+          </div>
+
+          <div id="upload-form" style="display:none">
+
+            <div class="drop-zone" id="drop-zone"
+              onclick="document.getElementById('file-input').click()"
+              ondragover="handleDragOver(event)"
+              ondragleave="handleDragLeave(event)"
+              ondrop="handleDrop(event)">
+              <span class="dz-icon">📁</span>
+              <p style="font-weight:700;color:var(--text-primary);margin-bottom:.3rem">
+                Arrastra tu archivo aquí
+              </p>
+              <p style="font-size:.82rem;color:var(--text-muted)">
+                o haz clic para seleccionar
+              </p>
+              <p style="font-size:.74rem;color:var(--text-muted);margin-top:.4rem">
+                PDF, imagen o PowerPoint · Máximo 10MB
+              </p>
+            </div>
+
+            <input type="file" id="file-input" accept=".pdf,image/*,.ppt,.pptx"
+              style="display:none" onchange="handleFileSelect(event)">
+
+            <div class="file-preview" id="file-preview">
+              <span id="fp-icon" style="font-size:1.5rem">📄</span>
+              <div style="flex:1">
+                <div id="fp-name" style="font-weight:700;font-size:.88rem"></div>
+                <div id="fp-size" style="font-size:.75rem;color:var(--text-muted)"></div>
+              </div>
+              <button class="fp-remove" onclick="removerArchivo()">✕</button>
+            </div>
+
+            <div class="progress-bar" id="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <div class="contact-form" style="margin-top:0">
+              <div class="form-field">
+                <label>Título *</label>
+                <input type="text" id="up-titulo" placeholder="Ej. Examen parcial Mineralogía 2024">
+              </div>
+              <div class="form-field">
+                <label>Descripción</label>
+                <textarea id="up-descripcion" style="min-height:80px"
+                  placeholder="Describe brevemente el contenido..."></textarea>
+              </div>
+              <div class="form-2col">
+                <div class="form-field">
+                  <label>Tipo *</label>
+                  <select id="up-tipo">
+                    <option value="">Seleccionar...</option>
+                    <option value="examen">📝 Examen</option>
+                    <option value="apunte">📒 Apunte</option>
+                    <option value="tesis">🎓 Tesis</option>
+                    <option value="practica">🔬 Práctica</option>
+                    <option value="pdf">📄 PDF General</option>
+                    <option value="ppt">📊 Presentación</option>
+                    <option value="imagen">🖼 Imagen</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label>Categoría *</label>
+                  <select id="up-categoria">
+                    <option value="">Seleccionar...</option>
+                    <option value="mineralogía">Mineralogía</option>
+                    <option value="petrología">Petrología</option>
+                    <option value="estructural">Geología Estructural</option>
+                    <option value="sedimentología">Sedimentología</option>
+                    <option value="económica">Geología Económica</option>
+                    <option value="geotecnia">Geotecnia</option>
+                    <option value="geomorfología">Geomorfología</option>
+                    <option value="general">General</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field">
+                <label>Nivel de calidad</label>
+                <select id="up-calidad">
+                  <option value="bueno">⭐⭐ Bueno (precio normal)</option>
+                  <option value="premium">⭐⭐⭐ Premium (precio alto)</option>
+                  <option value="basico">⭐ Básico (precio bajo)</option>
+                </select>
+              </div>
+
+              <div class="creditos-preview">
+                <span style="font-size:1.5rem">💰</span>
+                <div>
+                  <p style="font-size:.82rem;color:var(--text-secondary);margin:0">
+                    Si tu archivo es aprobado ganarás
+                  </p>
+                  <strong style="color:var(--vino);font-size:1.05rem">+10 créditos</strong>
+                  <p style="font-size:.78rem;color:var(--text-muted);margin:.15rem 0 0">
+                    + 50% de comisión por cada descarga
+                  </p>
+                </div>
+              </div>
+
+              <button class="btn" id="btn-subir"
+                style="width:100%;justify-content:center"
+                onclick="subirArchivo()">
+                📤 Subir archivo
+              </button>
+              <p style="font-size:.76rem;color:var(--text-muted);text-align:center;margin-top:.6rem">
+                Tu archivo será revisado antes de publicarse. Los créditos se otorgan al aprobar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div style="position:sticky;top:calc(var(--nav-h) + 1.5rem)">
+          <div class="info-box" style="margin-bottom:1rem">
+            <h4>🔒 Tu archivo es privado</h4>
+            <ul style="margin-top:.6rem">
+              <li>Solo lo ve el admin al revisar</li>
+              <li>Se publica tras aprobación</li>
+              <li>Puedes pedir que no se publique</li>
+            </ul>
+          </div>
+          <div class="info-box" style="margin-bottom:1rem">
+            <h4>💰 Gana créditos</h4>
+            <ul style="margin-top:.6rem">
+              <li>+10 créditos al ser aprobado</li>
+              <li>+50% comisión por descarga</li>
+              <li>Más descargas = más créditos</li>
+            </ul>
+          </div>
+          <div class="info-box">
+            <h4>📋 Requisitos</h4>
+            <ul style="margin-top:.6rem">
+              <li>✅ PDF, imagen o PPT</li>
+              <li>✅ Máximo 10 MB</li>
+              <li>✅ Trabajo de tu autoría</li>
+              <li>✅ Tema de Ing. Geológica</li>
+              <li>❌ Sin copias de libros</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB TOP ── -->
+    <div class="tab-pane" id="tab-top">
+      <h3>Material Mejor Valorado</h3>
+      <p style="margin-bottom:1.5rem">Los aportes más útiles según la comunidad.</p>
+      <div id="grid-top">
+        <div style="text-align:center;padding:3rem;color:var(--text-muted)">Cargando...</div>
+      </div>
+    </div>
+
+    <!-- ── TAB MIS ARCHIVOS ── -->
+    <div class="tab-pane" id="tab-mis">
+      <h3>Mis Archivos</h3>
+      <p style="margin-bottom:1.5rem">Material que has subido a la plataforma.</p>
+      <div id="grid-mis">
+        <div style="text-align:center;padding:3rem;color:var(--text-muted)">
+          Inicia sesión para ver tus archivos.
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="repositorio.html">Repositorio</a>
+      <a href="creditos.html">Créditos</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/archivos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+
+<script type="module">
+  import { supabase }  from './js/supabase.js'
+  import { Auth }      from './js/auth.js'
+  import { Archivos, calcularPrecioFrontend } from './js/archivos.js'
+
+  let archivoSeleccionado = null
+  let filtroTipo = 'all'
+
+  /* ── TABS ── */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'))
+      btn.classList.add('active')
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active')
+      if (btn.dataset.tab === 'top')  cargarTop()
+      if (btn.dataset.tab === 'mis')  cargarMis()
+    })
+  })
+
+  /* ── FILTROS ── */
+  document.querySelectorAll('.filter-btn[data-tipo]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn[data-tipo]').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      filtroTipo = btn.dataset.tipo
+      cargarArchivos()
+    })
+  })
+
+  document.getElementById('buscar-archivos')?.addEventListener('input', e => {
+    clearTimeout(window._buscarTimer)
+    window._buscarTimer = setTimeout(() => cargarArchivos(e.target.value), 400)
+  })
+
+  /* ── CARGAR ARCHIVOS ── */
+  async function cargarArchivos(busqueda = '') {
+    const grid = document.getElementById('grid-archivos')
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</div>'
+
+    const archivos = await Archivos.getAprobados({
+      tipo:     filtroTipo !== 'all' ? filtroTipo : undefined,
+      busqueda: busqueda || undefined
+    })
+
+    document.getElementById('count-archivos').textContent =
+      `${archivos.length} archivo${archivos.length !== 1 ? 's' : ''} disponibles`
+
+    if (!archivos.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted)"><div style="font-size:2.5rem;margin-bottom:.5rem">📭</div><p>No hay archivos disponibles aún.</p><p style="font-size:.82rem;margin-top:.3rem">¡Sé el primero en subir material!</p></div>'
+      return
+    }
+
+    grid.innerHTML = archivos.map(a => renderArchivoCard(a)).join('')
+  }
+
+  function renderArchivoCard(a) {
+    const iconos = { pdf:'📄', imagen:'🖼', examen:'📝', apunte:'📒', tesis:'🎓', practica:'🔬', ppt:'📊' }
+    const estrellas = a.promedio_estrellas
+      ? '⭐'.repeat(Math.round(a.promedio_estrellas))
+      : ''
+
+    return `
+      <div class="archivo-card reveal">
+        <div class="ac-header">
+          <div class="ac-icon">${iconos[a.tipo] || '📄'}</div>
+          <div style="flex:1">
+            <div class="ac-title">${a.titulo}</div>
+            <div class="ac-autor">por ${a.usuarios?.nombre || 'Anónimo'}</div>
+          </div>
+        </div>
+        ${a.descripcion ? `<div class="ac-desc">${a.descripcion}</div>` : ''}
+        <div class="ac-meta">
+          <span class="ac-pill">${a.tipo || 'pdf'}</span>
+          <span class="ac-pill">${a.categoria || 'general'}</span>
+          ${estrellas ? `<span style="font-size:.8rem">${estrellas} (${a.promedio_estrellas})</span>` : ''}
+          <span class="ac-costo">💰 ${a.costo_descargar} créditos</span>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.3rem">
+          <button class="btn btn-sm" style="flex:1"
+            onclick="descargarArchivo('${a.id}')">
+            ⬇ Descargar
+          </button>
+          <button class="btn btn-outline btn-sm"
+            onclick="valorarArchivo('${a.id}')">⭐</button>
+        </div>
+      </div>
+    `
+  }
+
+  async function cargarTop() {
+    const archivos = await Archivos.getAprobados({ limite: 10 })
+    const sorted = archivos
+      .filter(a => a.promedio_estrellas)
+      .sort((a, b) => b.promedio_estrellas - a.promedio_estrellas)
+      .slice(0, 10)
+
+    const grid = document.getElementById('grid-top')
+    if (!sorted.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted)">Sin valoraciones aún.</div>'
+      return
+    }
+
+    grid.innerHTML = sorted.map((a, i) => `
+      <div class="rank-item reveal">
+        <div class="rank-num">${i + 1}</div>
+        <div style="flex:1">
+          <div style="font-weight:700;color:var(--text-primary)">${a.titulo}</div>
+          <div style="font-size:.78rem;color:var(--text-muted)">${a.usuarios?.nombre || '—'} · ${a.categoria || '—'}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.2rem">
+          <span style="color:var(--dorado);font-weight:700">⭐ ${a.promedio_estrellas}</span>
+          <span style="font-size:.75rem;color:var(--text-muted)">${a.descargas || 0} descargas</span>
+        </div>
+        <button class="btn btn-sm" onclick="descargarArchivo('${a.id}')">⬇</button>
+      </div>
+    `).join('')
+  }
+
+  async function cargarMis() {
+    const user = await Auth.getUser()
+    const grid = document.getElementById('grid-mis')
+    if (!user) {
+      grid.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted)">Inicia sesión para ver tus archivos.</div>'
+      return
+    }
+
+    const { data } = await supabase
+      .from('archivos')
+      .select('*')
+      .eq('subido_por', user.id)
+      .order('created_at', { ascending: false })
+
+    if (!data?.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted)">Aún no has subido archivos.</div>'
+      return
+    }
+
+    const badges = { aprobado: 'badge-verde', pendiente: 'badge-dorado', rechazado: 'badge-rojo' }
+    grid.innerHTML = `<div class="grid">${data.map(a => `
+      <div class="card reveal">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
+          <span class="badge ${badges[a.estado] || 'badge-dorado'}">${a.estado}</span>
+          <span style="font-size:.75rem;color:var(--text-muted)">${new Date(a.created_at).toLocaleDateString('es-PE')}</span>
+        </div>
+        <h4>${a.titulo}</h4>
+        <p style="font-size:.84rem">${a.descripcion || 'Sin descripción'}</p>
+        <p class="meta">${a.tipo} · ${a.categoria} · 💰 ${a.costo_descargar} créditos</p>
+        ${a.estado === 'aprobado'
+          ? `<p style="font-size:.78rem;color:var(--verde);margin-top:.4rem">✅ ${a.descargas || 0} descargas · Créditos ganados: ${(a.descargas || 0) * Math.floor(a.costo_descargar * 0.5)}</p>`
+          : a.estado === 'pendiente'
+          ? '<p style="font-size:.78rem;color:var(--dorado);margin-top:.4rem">⏳ En revisión por el admin</p>'
+          : '<p style="font-size:.78rem;color:var(--rojo);margin-top:.4rem">❌ No cumple los requisitos</p>'
+        }
+      </div>
+    `).join('')}</div>`
+  }
+
+  /* ── ACCIONES ── */
+  window.descargarArchivo = async function(id) {
+    const logged = await Auth.isLogged()
+    if (!logged) {
+      Toast.show('Inicia sesión para descargar', 'info')
+      window.ModalAuth?.open()
+      return
+    }
+    await Archivos.descargar(id)
+  }
+
+  window.valorarArchivo = async function(id) {
+    const logged = await Auth.isLogged()
+    if (!logged) { Toast.show('Inicia sesión para valorar', 'info'); return }
+    const estrellas = prompt('¿Cuántas estrellas le das? (1-5)')
+    const num = parseInt(estrellas)
+    if (num >= 1 && num <= 5) {
+      await Archivos.valorar(id, num)
+    }
+  }
+
+  /* ── UPLOAD ── */
+  window.handleDragOver = e => {
+    e.preventDefault()
+    document.getElementById('drop-zone').classList.add('dragover')
+  }
+  window.handleDragLeave = () =>
+    document.getElementById('drop-zone').classList.remove('dragover')
+
+  window.handleDrop = e => {
+    e.preventDefault()
+    document.getElementById('drop-zone').classList.remove('dragover')
+    const file = e.dataTransfer.files[0]
+    if (file) procesarArchivo(file)
+  }
+
+  window.handleFileSelect = e => {
+    const file = e.target.files[0]
+    if (file) procesarArchivo(file)
+  }
+
+  function procesarArchivo(file) {
+    if (file.size > 10 * 1024 * 1024) {
+      Toast.show('El archivo supera los 10MB', 'error'); return
+    }
+    archivoSeleccionado = file
+    const iconos = { 'application/pdf': '📄', 'image/': '🖼' }
+    document.getElementById('fp-icon').textContent =
+      file.type.startsWith('image/') ? '🖼' : '📄'
+    document.getElementById('fp-name').textContent = file.name
+    document.getElementById('fp-size').textContent =
+      (file.size / 1024 / 1024).toFixed(2) + ' MB'
+    document.getElementById('file-preview').classList.add('show')
+    document.getElementById('drop-zone').style.display = 'none'
+  }
+
+  window.removerArchivo = () => {
+    archivoSeleccionado = null
+    document.getElementById('file-preview').classList.remove('show')
+    document.getElementById('drop-zone').style.display = 'block'
+    document.getElementById('file-input').value = ''
+  }
+
+  window.subirArchivo = async () => {
+    if (!archivoSeleccionado) {
+      Toast.show('Selecciona un archivo primero', 'error'); return
+    }
+    const titulo    = document.getElementById('up-titulo').value.trim()
+    const desc      = document.getElementById('up-descripcion').value.trim()
+    const tipo      = document.getElementById('up-tipo').value
+    const categoria = document.getElementById('up-categoria').value
+    const calidad   = document.getElementById('up-calidad').value
+
+    if (!titulo || !tipo || !categoria) {
+      Toast.show('Completa todos los campos obligatorios', 'error'); return
+    }
+
+    const btn = document.getElementById('btn-subir')
+    btn.textContent = 'Subiendo...'
+    btn.disabled = true
+
+    const pb = document.getElementById('progress-bar')
+    const pf = document.getElementById('progress-fill')
+    pb.classList.add('show')
+
+    let p = 0
+    const iv = setInterval(() => {
+      p += 8
+      pf.style.width = Math.min(p, 85) + '%'
+    }, 200)
+
+    const res = await Archivos.subir(archivoSeleccionado, {
+      titulo, descripcion: desc, tipo, categoria,
+      nivel_calidad: calidad
+    })
+
+    clearInterval(iv)
+    pf.style.width = '100%'
+    setTimeout(() => { pb.classList.remove('show'); pf.style.width = '0%' }, 500)
+
+    if (res.ok) {
+      const msg = res.esAdmin
+        ? '✅ Archivo publicado directamente.'
+        : '✅ Archivo enviado. Pendiente de revisión.'
+      Toast.show(msg, 'success', 5000)
+      btn.textContent = '✅ Enviado'
+      setTimeout(() => cargarArchivos(), 1500)
+      removerArchivo()
+      document.getElementById('up-titulo').value = ''
+      document.getElementById('up-descripcion').value = ''
+    } else {
+      Toast.show('Error: ' + res.error, 'error')
+      btn.textContent = '📤 Subir archivo'
+      btn.disabled = false
+    }
+  }
+
+  /* ── INIT ── */
+  window.addEventListener('DOMContentLoaded', async () => {
+    cargarArchivos()
+    const logged = await Auth.isLogged()
+    document.getElementById('upload-login-msg').style.display  = logged ? 'none'  : 'block'
+    document.getElementById('upload-form').style.display       = logged ? 'block' : 'none'
+  })
+
+  window.Toast = {
+    show(msg, type = 'info', duration = 3500) {
+      const c = document.getElementById('toast-container')
+      const icons = { success:'✓', error:'⚠', info:'💎' }
+      const el = document.createElement('div')
+      el.className = `toast toast-${type}`
+      el.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span>`
+      c.appendChild(el)
+      setTimeout(() => { el.classList.add('toast-out'); setTimeout(() => el.remove(), 350) }, duration)
+    }
+  }
+</script>
+
+<style>
+@media (max-width: 860px) {
+  #tab-subir > div[style*="grid-template-columns"] {
+    display: block !important;
+  }
+  #tab-subir > div[style*="grid-template-columns"] > div:last-child {
+    margin-top: 1.5rem;
+    position: static !important;
+  }
+}
+</style>
+</body>
+</html>

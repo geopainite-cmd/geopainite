@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repositorio Académico | GeoPainite</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="page-progress"></div>
+<header class="header"><div class="container">
+  <h1 class="logo">Geo<span>Painite</span></h1>
+  <nav class="nav" id="main-nav"><ul>
+    <li><a href="index.html">Inicio</a></li><li><a href="campo.html">Campo</a></li>
+    <li><a href="cursos.html">Cursos</a></li><li><a href="diagramas.html">Diagramas</a></li>
+    <li><a href="repositorio.html" class="active">Repositorio</a></li><li><a href="recursos.html">Recursos</a></li>
+    <li><a href="comunidad.html">Comunidad</a></li><li><a href="tienda.html">Tienda</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul></nav>
+  <div class="header-actions">
+    <div class="header-search"><button class="search-icon-btn" tabindex="-1">🔍</button><input type="text" id="header-search" placeholder="Buscar..." autocomplete="off"><div id="search-dropdown"></div></div>
+    <button class="dark-toggle" id="dark-toggle">🌙</button><div id="auth-wrap"></div>
+    <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</div></header>
+
+<section class="page-hero"><div class="container">
+  <h2>Repositorio Académico</h2>
+  <p>Material técnico propio: guías especializadas, exámenes resueltos y documentos académicos. Acceso con créditos.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num" data-target="6">0</span><span class="stat-label">PDFs disponibles</span></div>
+    <div class="stat-item"><span class="stat-num" data-target="4">0</span><span class="stat-label">Áreas</span></div>
+    <div class="stat-item"><span class="stat-num" data-target="8">0</span><span class="stat-label">Próximamente</span></div>
+  </div>
+</div></section>
+
+<main class="container">
+  <section class="section">
+    <h3>Acceso al Material</h3>
+    <p>El material del repositorio requiere créditos para descargar. Al registrarte obtienes 10 créditos gratis. También puedes ganar créditos subiendo tu propio material a la comunidad.</p>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem">
+      <span style="background:rgba(26,122,58,.1);color:#1a7a3a;padding:.3rem .85rem;border-radius:20px;font-size:.78rem;font-weight:700;border:1px solid rgba(26,122,58,.2)">✓ Registro gratuito + 10 créditos</span>
+      <span style="background:var(--dorado-bg);color:var(--dorado);padding:.3rem .85rem;border-radius:20px;font-size:.78rem;font-weight:700;border:1px solid rgba(201,147,58,.2)">💰 Comprar más créditos</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Petrología</h3>
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <span class="badge badge-purpura" style="position:static;display:inline-block;margin-bottom:.8rem">PDF Disponible</span>
+        <h4>Guía Técnica – Clasificación Ígnea</h4>
+        <p>Criterios de clasificación petrográfica, uso del diagrama QAPF y fundamentos mineralógicos.</p>
+        <p class="meta">📄 PDF · Nivel: Intermedio · 28 págs. · 💰 5 créditos</p>
+        <button class="btn btn-sm" onclick="descargarRepo('guia-clasificacion-ignea')">⬇ Descargar</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-rojo" style="position:static;display:inline-block;margin-bottom:.8rem">Próximamente</span>
+        <h4>Examen Resuelto – Petrología Ígnea</h4>
+        <p>Desarrollo completo de evaluación teórico-práctica con análisis modal e interpretación textural.</p>
+        <p class="meta">📄 PDF · Nivel: Avanzado · Próximamente</p>
+        <button class="btn btn-sm disabled">Próximamente</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Geología Estructural</h3>
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <span class="badge badge-purpura" style="position:static;display:inline-block;margin-bottom:.8rem">PDF Disponible</span>
+        <h4>Guía de Análisis de Fallas</h4>
+        <p>Metodología para identificación de sistemas de fallamiento y cinemática estructural.</p>
+        <p class="meta">📄 PDF · Nivel: Intermedio · 32 págs. · 💰 5 créditos</p>
+        <button class="btn btn-sm" onclick="descargarRepo('guia-analisis-fallas')">⬇ Descargar</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-rojo" style="position:static;display:inline-block;margin-bottom:.8rem">Próximamente</span>
+        <h4>Ejercicios – Proyección Estereográfica</h4>
+        <p>Problemas desarrollados paso a paso para interpretación de planos y líneas estructurales.</p>
+        <p class="meta">📄 PDF · Próximamente</p>
+        <button class="btn btn-sm disabled">Próximamente</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Sedimentología</h3>
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <span class="badge badge-purpura" style="position:static;display:inline-block;margin-bottom:.8rem">PDF Disponible</span>
+        <h4>Manual de Granulometría</h4>
+        <p>Procedimientos de análisis granulométrico e interpretación de curvas acumulativas.</p>
+        <p class="meta">📄 PDF · Nivel: Básico–Intermedio · 18 págs. · 💰 4 créditos</p>
+        <button class="btn btn-sm" onclick="descargarRepo('manual-granulometria')">⬇ Descargar</button>
+      </div>
+      <div class="card reveal">
+        <span class="badge badge-rojo" style="position:static;display:inline-block;margin-bottom:.8rem">Próximamente</span>
+        <h4>Guía de Ambientes Sedimentarios</h4>
+        <p>Interpretación de paleoambientes deposicionales a partir de estructuras sedimentarias.</p>
+        <p class="meta">📄 PDF · Próximamente</p>
+        <button class="btn btn-sm disabled">Próximamente</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section future-section">
+    <h3>Material Especializado — Próximamente</h3>
+    <ul>
+      <li>📋 Compendios académicos resumidos por curso</li>
+      <li>📝 Simulaciones de exámenes integradores</li>
+      <li>📐 Guías avanzadas de resolución estructurada</li>
+      <li>🔬 Material orientado a preparación profesional</li>
+      <li>🗺 Mapas geológicos regionales comentados</li>
+    </ul>
+    <a href="contacto.html" class="btn btn-outline">Notifícame cuando esté disponible</a>
+  </section>
+</main>
+
+<div class="banner-cta"><div class="container">
+  <h2>¿Necesitas material específico?</h2>
+  <p>Si no encuentras el documento que buscas, contáctanos y lo evaluamos.</p>
+  <a href="contacto.html" class="btn btn-dorado">Solicitar Material →</a>
+</div></div>
+
+<footer class="footer"><div class="container">
+  <div class="footer-links">
+    <a href="index.html">Inicio</a><a href="cursos.html">Cursos</a>
+    <a href="comunidad.html">Comunidad</a><a href="contacto.html">Contacto</a>
+  </div>
+  <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+</div></footer>
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/archivos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<script>
+function descargarRepo(nombre) {
+  if (typeof Auth !== 'undefined') {
+    Auth.requireLogin(() => {
+      if (typeof Toast !== 'undefined') Toast.show('📥 Iniciando descarga...', 'success')
+    })
+  }
+}
+window.descargarRepo = descargarRepo
+</script>
+</body>
+</html>

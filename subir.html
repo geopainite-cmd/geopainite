@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subir Archivo | GeoPainite</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .upload-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 2rem 1rem 5rem;
+    }
+
+    .drop-zone {
+      border: 2.5px dashed var(--border-med);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--tr);
+      background: var(--surface);
+      margin-bottom: 1.5rem;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: var(--vino);
+      background: var(--vino-light);
+    }
+
+    .drop-zone .dz-icon {
+      font-size: 3rem;
+      margin-bottom: .8rem;
+      display: block;
+    }
+
+    .drop-zone h4 {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      color: var(--vino);
+      margin-bottom: .4rem;
+    }
+
+    .drop-zone p {
+      font-size: .84rem;
+      color: var(--text-muted);
+    }
+
+    .file-preview {
+      display: none;
+      align-items: center;
+      gap: .8rem;
+      padding: .9rem 1.1rem;
+      background: var(--vino-light);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+    }
+
+    .file-preview.show { display: flex; }
+
+    .fp-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .fp-info { flex: 1; }
+
+    .fp-name {
+      font-weight: 700;
+      font-size: .88rem;
+      color: var(--text-primary);
+    }
+
+    .fp-size {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-top: .1rem;
+    }
+
+    .fp-remove {
+      background: none;
+      border: none;
+      color: var(--rojo);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: .2rem;
+    }
+
+    .progress-bar {
+      display: none;
+      height: 6px;
+      border-radius: 99px;
+      background: var(--bg-alt);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-bar.show { display: block; }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--vino), var(--purpura));
+      width: 0%;
+      transition: width .3s ease;
+    }
+
+    .creditos-preview {
+      background: linear-gradient(135deg,
+        rgba(201,147,58,.08), rgba(75,32,96,.06));
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .cp-icon { font-size: 1.5rem; }
+
+    .cp-text p {
+      font-size: .82rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .cp-text strong {
+      color: var(--vino);
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>Subir Archivo</h2>
+    <p>Comparte tu material con la comunidad y gana créditos cuando otros lo descarguen.</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="upload-wrap">
+
+    <!-- Drop zone -->
+    <div class="drop-zone" id="drop-zone"
+      onclick="document.getElementById('file-input').click()"
+      ondragover="handleDragOver(event)"
+      ondragleave="handleDragLeave(event)"
+      ondrop="handleDrop(event)">
+      <span class="dz-icon">📁</span>
+      <h4>Arrastra tu archivo aquí</h4>
+      <p>o haz clic para seleccionar</p>
+      <p style="margin-top:.5rem;font-size:.76rem">PDF o imagen · Máximo 10MB</p>
+    </div>
+
+    <input type="file" id="file-input" accept=".pdf,image/*"
+      style="display:none" onchange="handleFileSelect(event)">
+
+    <!-- Preview del archivo -->
+    <div class="file-preview" id="file-preview">
+      <span class="fp-icon" id="fp-icon">📄</span>
+      <div class="fp-info">
+        <div class="fp-name" id="fp-name">archivo.pdf</div>
+        <div class="fp-size" id="fp-size">0 MB</div>
+      </div>
+      <button class="fp-remove" onclick="removerArchivo()">✕</button>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Formulario de metadata -->
+    <div class="contact-form">
+      <div class="form-field">
+        <label>Título del archivo *</label>
+        <input type="text" id="titulo"
+          placeholder="Ej. Examen parcial Mineralogía 2024">
+      </div>
+
+      <div class="form-field">
+        <label>Descripción</label>
+        <textarea id="descripcion"
+          placeholder="Describe brevemente el contenido..."></textarea>
+      </div>
+
+      <div class="form-2col">
+        <div class="form-field">
+          <label>Tipo de archivo *</label>
+          <select id="tipo">
+            <option value="">Seleccionar...</option>
+            <option value="examen">📝 Examen</option>
+            <option value="apunte">📒 Apunte</option>
+            <option value="tesis">🎓 Tesis</option>
+            <option value="practica">🔬 Práctica</option>
+            <option value="pdf">📄 PDF General</option>
+            <option value="imagen">🖼 Imagen</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Categoría *</label>
+          <select id="categoria">
+            <option value="">Seleccionar...</option>
+            <option value="mineralogía">Mineralogía</option>
+            <option value="petrología">Petrología</option>
+            <option value="estructural">Geología Estructural</option>
+            <option value="sedimentología">Sedimentología</option>
+            <option value="económica">Geología Económica</option>
+            <option value="geotecnia">Geotecnia</option>
+            <option value="geomorfología">Geomorfología</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Preview de créditos -->
+      <div class="creditos-preview">
+        <span class="cp-icon">💰</span>
+        <div class="cp-text">
+          <p>Si tu archivo es aprobado ganarás</p>
+          <strong>+10 créditos</strong>
+          <p style="margin-top:.2rem">
+            Y <strong>+5 créditos extra</strong> cada vez que alguien lo descargue
+          </p>
+        </div>
+      </div>
+
+      <button class="btn" id="btn-subir"
+        style="width:100%;justify-content:center"
+        onclick="subirArchivo()">
+        📤 Subir archivo
+      </button>
+
+      <p style="font-size:.78rem;color:var(--text-muted);
+        text-align:center;margin-top:.8rem">
+        Tu archivo será revisado por el admin antes de publicarse.
+        Recibirás los créditos cuando sea aprobado.
+      </p>
+    </div>
+
+  </div>
+</main>
+
+<div id="toast-container"></div>
+<button id="back-top">↑</button>
+
+<script type="module">
+  import { Auth }     from './js/auth.js'
+  import { Archivos } from './js/archivos.js'
+
+  let archivoSeleccionado = null
+
+  // Verificar que esté logueado
+  window.addEventListener('DOMContentLoaded', async () => {
+    Auth.init()
+    const logged = await Auth.isLogged()
+    if (!logged) {
+      Toast.show('Debes iniciar sesión para subir archivos', 'error')
+      setTimeout(() => window.location.href = 'index.html', 2000)
+    }
+  })
+
+  // Drag and drop
+  window.handleDragOver = function(e) {
+    e.preventDefault()
+    document.getElementById('drop-zone').classList.add('dragover')
+  }
+
+  window.handleDragLeave = function() {
+    document.getElementById('drop-zone').classList.remove('dragover')
+  }
+
+  window.handleDrop = function(e) {
+    e.preventDefault()
+    document.getElementById('drop-zone').classList.remove('dragover')
+    const file = e.dataTransfer.files[0]
+    if (file) procesarArchivo(file)
+  }
+
+  window.handleFileSelect = function(e) {
+    const file = e.target.files[0]
+    if (file) procesarArchivo(file)
+  }
+
+  function procesarArchivo(file) {
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      Toast.show('El archivo supera los 10MB', 'error')
+      return
+    }
+    archivoSeleccionado = file
+    document.getElementById('fp-icon').textContent =
+      file.type === 'application/pdf' ? '📄' : '🖼'
+    document.getElementById('fp-name').textContent = file.name
+    document.getElementById('fp-size').textContent =
+      (file.size / 1024 / 1024).toFixed(2) + ' MB'
+    document.getElementById('file-preview').classList.add('show')
+    document.getElementById('drop-zone').style.display = 'none'
+  }
+
+  window.removerArchivo = function() {
+    archivoSeleccionado = null
+    document.getElementById('file-preview').classList.remove('show')
+    document.getElementById('drop-zone').style.display = 'block'
+    document.getElementById('file-input').value = ''
+  }
+
+  window.subirArchivo = async function() {
+    if (!archivoSeleccionado) {
+      Toast.show('Selecciona un archivo primero', 'error')
+      return
+    }
+
+    const titulo     = document.getElementById('titulo').value.trim()
+    const descripcion = document.getElementById('descripcion').value.trim()
+    const tipo       = document.getElementById('tipo').value
+    const categoria  = document.getElementById('categoria').value
+
+    if (!titulo || !tipo || !categoria) {
+      Toast.show('Completa todos los campos obligatorios', 'error')
+      return
+    }
+
+    const btn = document.getElementById('btn-subir')
+    btn.textContent = 'Subiendo...'
+    btn.disabled = true
+
+    const progressBar  = document.getElementById('progress-bar')
+    const progressFill = document.getElementById('progress-fill')
+    progressBar.classList.add('show')
+
+    // Simular progreso
+    let progreso = 0
+    const intervalo = setInterval(() => {
+      progreso += 10
+      progressFill.style.width = Math.min(progreso, 85) + '%'
+    }, 200)
+
+    const resultado = await Archivos.subir(archivoSeleccionado, {
+      titulo,
+      descripcion,
+      tipo,
+      categoria,
+      costo_ver:          0,
+      costo_descargar:    5,
+      creditos_por_subir: 10
+    })
+
+    clearInterval(intervalo)
+    progressFill.style.width = '100%'
+
+    setTimeout(() => {
+      progressBar.classList.remove('show')
+      progressFill.style.width = '0%'
+    }, 500)
+
+    if (resultado.ok) {
+      Toast.show('✅ Archivo subido. Pendiente de revisión.', 'success', 5000)
+      btn.textContent = '✅ Archivo enviado'
+      setTimeout(() => window.location.href = 'comunidad.html', 2500)
+    } else {
+      Toast.show('Error: ' + resultado.error, 'error')
+      btn.textContent = '📤 Subir archivo'
+      btn.disabled = false
+    }
+  }
+
+  // Toast
+  window.Toast = {
+    show(msg, type = 'info', duration = 3500) {
+      const c = document.getElementById('toast-container')
+      const icons = { success:'✓', error:'⚠', info:'💎' }
+      const el = document.createElement('div')
+      el.className = `toast toast-${type}`
+      el.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span>`
+      c.appendChild(el)
+      setTimeout(() => {
+        el.classList.add('toast-out')
+        setTimeout(() => el.remove(), 350)
+      }, duration)
+    }
+  }
+</script>
+<!-- ANTES -->
+<script src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<!-- DESPUÉS -->
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/archivos.js"></script>
+</body>
+</html>

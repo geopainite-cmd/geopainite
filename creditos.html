@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créditos | GeoPainite</title>
+  <meta name="description" content="Compra créditos para acceder al contenido de GeoPainite. Paquetes desde S/10 vía Yape.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .pack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .pack-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: var(--tr);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .pack-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--vino);
+    }
+
+    .pack-card.popular {
+      border-color: var(--vino);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pack-card.popular::before {
+      content: '🔥 MÁS POPULAR';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: linear-gradient(135deg, var(--vino), var(--purpura));
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: .6px;
+      padding: .35rem;
+      text-align: center;
+    }
+
+    .pack-icon {
+      font-size: 2.5rem;
+      margin-bottom: .8rem;
+      display: block;
+      margin-top: .3rem;
+    }
+
+    .pack-card.popular .pack-icon { margin-top: 1.2rem; }
+
+    .pack-nombre {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--vino);
+      margin-bottom: .3rem;
+    }
+
+    [data-theme="dark"] .pack-nombre { color: var(--dorado-light); }
+
+    .pack-creditos {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--vino);
+      line-height: 1;
+      margin: .5rem 0;
+    }
+
+    [data-theme="dark"] .pack-creditos { color: var(--dorado-light); }
+
+    .pack-creditos span {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
+
+    .pack-precio {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--dorado);
+      margin: .3rem 0 .8rem;
+    }
+
+    .pack-precio-unit {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .pack-features {
+      list-style: none;
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+
+    .pack-features li {
+      font-size: .82rem;
+      color: var(--text-secondary);
+      padding: .28rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .pack-features li:last-child { border-bottom: none; }
+
+    /* Flujo de pago */
+    .flujo-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .flujo-step {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      padding: 1.2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .flujo-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--vino), var(--purpura));
+      color: #fff;
+      font-weight: 900;
+      font-size: .88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto .7rem;
+    }
+
+    .flujo-step h4 {
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: .3rem;
+    }
+
+    .flujo-step p {
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal de compra */
+    .compra-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(8,5,15,.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .compra-modal.open {
+      display: flex;
+      animation: fadeIn .25s ease;
+    }
+
+    .compra-box {
+      background: var(--surface);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      animation: slideUp .3s ease;
+    }
+
+    .compra-head {
+      background: linear-gradient(135deg, var(--vino-deep), var(--purpura));
+      padding: 1.3rem 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .compra-head h3 {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 0;
+    }
+
+    .compra-head h3::after { display: none; }
+
+    .compra-body { padding: 1.5rem; }
+
+    .compra-resumen {
+      background: var(--vino-light);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    .compra-resumen .cr-creditos {
+      font-family: var(--font-title);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--vino);
+      line-height: 1;
+    }
+
+    [data-theme="dark"] .compra-resumen .cr-creditos { color: var(--dorado-light); }
+
+    .compra-resumen .cr-precio {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--dorado);
+      margin-top: .3rem;
+    }
+
+    .yape-info {
+      background: linear-gradient(135deg, rgba(103,58,183,.08), rgba(75,32,96,.06));
+      border: 1.5px solid rgba(103,58,183,.15);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .yape-numero {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--purpura);
+      letter-spacing: 2px;
+      margin: .4rem 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="campo.html">Campo</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="tienda.html">Tienda</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <button class="search-icon-btn" tabindex="-1">🔍</button>
+        <input type="text" id="header-search" placeholder="Buscar..." autocomplete="off">
+        <div id="search-dropdown"></div>
+      </div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>💰 Paquetes de Créditos</h2>
+    <p>Recarga tus créditos para acceder a todo el material académico. Pago rápido y seguro vía Yape.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">💜 Pago por Yape</span>
+      <span class="hero-badge">⚡ Activación manual rápida</span>
+      <span class="hero-badge">🔒 Sin suscripción</span>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <!-- SALDO ACTUAL -->
+  <section class="section">
+    <div id="saldo-wrap" style="display:none;background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem;box-shadow:var(--shadow-sm)">
+      <div style="font-size:2rem">💰</div>
+      <div>
+        <p style="font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin:0">Tu saldo actual</p>
+        <p style="font-family:var(--font-title);font-size:2rem;font-weight:700;color:var(--vino);margin:0" id="saldo-actual">—</p>
+      </div>
+      <div style="margin-left:auto">
+        <a href="comunidad.html" class="btn btn-outline btn-sm">
+          Ganar más créditos →
+        </a>
+      </div>
+    </div>
+
+    <h3>Elige tu paquete</h3>
+    <p>Todos los paquetes se activan manualmente en menos de 24 horas hábiles tras confirmar el pago.</p>
+
+    <div class="pack-grid" id="pack-grid">
+      <!-- Se carga dinámicamente -->
+    </div>
+  </section>
+
+  <!-- FLUJO DE PAGO -->
+  <section class="section">
+    <h3>¿Cómo funciona?</h3>
+    <div class="flujo-wrap">
+      <div class="flujo-step reveal">
+        <div class="flujo-num">1</div>
+        <h4>Elige tu paquete</h4>
+        <p>Selecciona la cantidad de créditos que necesitas.</p>
+      </div>
+      <div class="flujo-step reveal">
+        <div class="flujo-num">2</div>
+        <h4>Paga por Yape</h4>
+        <p>Transfiere el monto al número de Yape indicado.</p>
+      </div>
+      <div class="flujo-step reveal">
+        <div class="flujo-num">3</div>
+        <h4>Envía comprobante</h4>
+        <p>Manda la captura del pago por WhatsApp con tu correo registrado.</p>
+      </div>
+      <div class="flujo-step reveal">
+        <div class="flujo-num">4</div>
+        <h4>Recibe tus créditos</h4>
+        <p>El admin activa tus créditos en menos de 24 horas hábiles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <h3>Preguntas frecuentes</h3>
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <h4>¿Los créditos vencen?</h4>
+        <p>No. Los créditos que compras no tienen fecha de vencimiento. Son tuyos hasta que los uses.</p>
+      </div>
+      <div class="card reveal">
+        <h4>¿Puedo ganar créditos gratis?</h4>
+        <p>Sí. Subiendo material de calidad que sea aprobado ganas créditos automáticamente.</p>
+      </div>
+      <div class="card reveal">
+        <h4>¿Cuánto tarda la activación?</h4>
+        <p>Menos de 24 horas hábiles después de confirmar el pago por WhatsApp.</p>
+      </div>
+      <div class="card reveal">
+        <h4>¿Qué pasa si tengo un problema?</h4>
+        <p>Escríbenos por WhatsApp o al formulario de contacto. Te ayudamos de inmediato.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL DE COMPRA -->
+<div class="compra-modal" id="modal-compra">
+  <div class="compra-box">
+    <div class="compra-head">
+      <h3>💰 Comprar créditos</h3>
+      <button onclick="cerrarModalCompra()"
+        style="background:rgba(255,255,255,.15);border:none;color:#fff;
+        width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.9rem">✕</button>
+    </div>
+    <div class="compra-body">
+
+      <div class="compra-resumen">
+        <p style="font-size:.75rem;color:var(--text-muted);margin:0 0 .3rem">Vas a comprar</p>
+        <div class="cr-creditos" id="modal-creditos">—</div>
+        <p style="font-size:.75rem;color:var(--text-muted);margin:.2rem 0">créditos</p>
+        <div class="cr-precio" id="modal-precio">S/ —</div>
+      </div>
+
+      <div class="yape-info">
+        <p style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin:0 0 .2rem">
+          💜 Pagar por Yape al número:
+        </p>
+        <div class="yape-numero">+51 914 622 770</div>
+        <p style="font-size:.74rem;color:var(--text-muted);margin:.2rem 0 0">
+          A nombre de: GeoPainite
+        </p>
+      </div>
+
+      <div class="form-field">
+        <label>Tu correo registrado en GeoPainite</label>
+        <input type="email" id="compra-correo"
+          placeholder="correo@ejemplo.com">
+      </div>
+
+      <p style="font-size:.78rem;color:var(--text-muted);margin:.5rem 0 1rem;line-height:1.6">
+        Después de pagar, envía la captura del comprobante por WhatsApp
+        con tu correo. Activamos tus créditos en menos de 24 horas.
+      </p>
+
+      <button class="btn btn-wsp"
+        style="width:100%;justify-content:center"
+        onclick="abrirWhatsAppCompra()">
+        💬 Confirmar pago por WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="comunidad.html">Comunidad</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="privacidad.html">Privacidad</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+
+<script type="module">
+  import { supabase }  from './js/supabase.js'
+  import { Auth }      from './js/auth.js'
+  import { Creditos }  from './js/creditos.js'
+
+  let packSeleccionado = null
+
+  async function init() {
+    // Mostrar saldo si está logueado
+    const user = await Auth.getUser()
+    if (user) {
+      const saldoWrap = document.getElementById('saldo-wrap')
+      saldoWrap.style.display = 'flex'
+      document.getElementById('saldo-actual').textContent =
+        `${user.creditos} créditos`
+    }
+
+    // Cargar paquetes desde Supabase
+    const { data: paquetes } = await supabase
+      .from('paquetes_creditos')
+      .select('*')
+      .eq('activo', true)
+      .order('precio_soles')
+
+    const grid = document.getElementById('pack-grid')
+
+    const iconos = ['🌱', '⚡', '🔥', '💎']
+    const features = [
+      ['~10 descargas básicas', 'Para probar la plataforma', 'Sin vencimiento'],
+      ['~24 descargas básicas', 'El más elegido', 'Sin vencimiento', '+Bonos ocasionales'],
+      ['~60 descargas', 'Para usuarios activos', 'Sin vencimiento', '+Acceso prioritario'],
+      ['~140 descargas', 'Máximo ahorro', 'Sin vencimiento', '+Soporte directo', '+Insignia especial']
+    ]
+
+    grid.innerHTML = (paquetes || []).map((p, i) => `
+      <div class="pack-card ${i === 1 ? 'popular' : ''} reveal"
+        onclick="seleccionarPack('${p.id}','${p.nombre}',${p.creditos},${p.precio_soles})">
+        <span class="pack-icon">${iconos[i] || '💰'}</span>
+        <div class="pack-nombre">${p.nombre}</div>
+        <div class="pack-creditos">
+          ${p.creditos} <span>créditos</span>
+        </div>
+        <div class="pack-precio">S/ ${p.precio_soles.toFixed(2)}</div>
+        <div class="pack-precio-unit">
+          S/ ${(p.precio_soles / p.creditos).toFixed(3)} por crédito
+        </div>
+        <ul class="pack-features">
+          ${(features[i] || []).map(f => `<li>✓ ${f}</li>`).join('')}
+        </ul>
+        <button class="btn ${i === 1 ? '' : 'btn-outline'}"
+          style="width:100%;justify-content:center">
+          Comprar ahora
+        </button>
+      </div>
+    `).join('')
+  }
+
+  window.seleccionarPack = function(id, nombre, creditos, precio) {
+    packSeleccionado = { id, nombre, creditos, precio }
+    document.getElementById('modal-creditos').textContent = creditos
+    document.getElementById('modal-precio').textContent = `S/ ${precio.toFixed(2)}`
+
+    // Prellenar correo si está logueado
+    Auth.getUser().then(user => {
+      if (user) document.getElementById('compra-correo').value = user.email
+    })
+
+    document.getElementById('modal-compra').classList.add('open')
+  }
+
+  window.cerrarModalCompra = () => {
+    document.getElementById('modal-compra').classList.remove('open')
+  }
+
+  window.abrirWhatsAppCompra = () => {
+    const correo = document.getElementById('compra-correo').value.trim()
+    if (!correo) {
+      Toast.show('Ingresa tu correo registrado', 'error'); return
+    }
+    if (!packSeleccionado) return
+
+    const msg = `Hola GeoPainite 👋, quiero comprar créditos:\n\n` +
+      `📦 Paquete: ${packSeleccionado.nombre}\n` +
+      `💰 Créditos: ${packSeleccionado.creditos}\n` +
+      `💵 Monto: S/ ${packSeleccionado.precio.toFixed(2)}\n` +
+      `📧 Correo: ${correo}\n\n` +
+      `Te envío el comprobante de Yape ahora.`
+
+    window.open(
+      'https://wa.me/+51914622770?text=' + encodeURIComponent(msg),
+      '_blank'
+    )
+    cerrarModalCompra()
+    Toast.show('¡Redirigiendo a WhatsApp! Envía tu comprobante 📲', 'success', 5000)
+  }
+
+  document.getElementById('modal-compra').addEventListener('click', e => {
+    if (e.target.id === 'modal-compra') cerrarModalCompra()
+  })
+
+  window.Toast = {
+    show(msg, type = 'info', duration = 3500) {
+      const c = document.getElementById('toast-container')
+      const icons = { success:'✓', error:'⚠', info:'💎' }
+      const el = document.createElement('div')
+      el.className = `toast toast-${type}`
+      el.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span>`
+      c.appendChild(el)
+      setTimeout(() => { el.classList.add('toast-out'); setTimeout(() => el.remove(), 350) }, duration)
+    }
+  }
+
+  init()
+</script>
+</body>
+</html>

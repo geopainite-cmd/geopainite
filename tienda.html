@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda de Minerales | GeoPainite</title>
+<meta name="description" content="Tienda de minerales auténticos de colección. Especímenes peruanos e internacionales.">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+/* ── PROMO ── */
+#promo-overlay{position:fixed;inset:0;z-index:9999;background:rgba(8,5,15,.75);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1rem;animation:fadeIn .4s ease}
+#promo-overlay.hide{display:none}
+#promo-box{background:var(--surface);border-radius:24px;max-width:480px;width:100%;overflow:hidden;box-shadow:var(--shadow-xl);animation:slideUp .4s ease}
+.promo-banner{background:linear-gradient(135deg,var(--vino-deep),var(--purpura));padding:1.8rem 2rem 1.5rem;text-align:center}
+.promo-banner h2{font-family:var(--font-title);font-size:2rem;font-weight:700;color:#fff;margin:0;line-height:1.2}
+.promo-banner h2::after{display:none}
+.promo-banner p{color:rgba(255,255,255,.8);font-size:.9rem;margin:.5rem 0 0}
+.promo-fire{font-size:2.8rem;display:block;margin-bottom:.5rem;animation:bounce 1s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.promo-body{padding:1.5rem 2rem 1.8rem}
+.promo-items{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem}
+.promo-item{background:var(--vino-light);border:1px solid var(--border);border-radius:12px;padding:.8rem;text-align:center}
+.pi-emoji{font-size:1.6rem;display:block;margin-bottom:.3rem}
+.pi-name{font-weight:700;font-size:.82rem;color:var(--vino)}
+[data-theme="dark"] .pi-name{color:var(--dorado-light)}
+.pi-precio{font-family:var(--font-title);font-size:1.3rem;font-weight:700;color:var(--vino);display:block}
+[data-theme="dark"] .pi-precio{color:var(--dorado-light)}
+.pi-antes{font-size:.72rem;color:var(--text-muted);text-decoration:line-through}
+.promo-timer{text-align:center;background:var(--vino-light);border-radius:12px;padding:.8rem;margin-bottom:1.2rem}
+.promo-timer p{font-size:.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:.4rem}
+.timer-digits{display:flex;gap:.5rem;justify-content:center}
+.td{background:var(--vino);color:#fff;border-radius:8px;padding:.4rem .7rem;font-size:1.2rem;font-weight:900;font-family:var(--font-title);min-width:44px;text-align:center}
+.td span{display:block;font-size:.55rem;font-weight:600;opacity:.7;margin-top:.1rem}
+.promo-btns{display:flex;gap:.7rem}
+.promo-btn-main{flex:1;padding:.7rem;background:linear-gradient(135deg,var(--vino),var(--purpura));color:#fff;border:none;border-radius:10px;font-family:var(--font-body);font-weight:800;font-size:.9rem;cursor:pointer;transition:var(--tr)}
+.promo-btn-skip{padding:.7rem 1rem;background:transparent;border:1.5px solid var(--border);border-radius:10px;color:var(--text-muted);font-family:var(--font-body);font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+/* ── SHOP ── */
+.shop-hero{padding:calc(var(--nav-h) + 60px) 1.5rem 60px;text-align:center;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(122,26,46,.10) 0%,transparent 65%),linear-gradient(170deg,var(--bg) 0%,var(--bg-alt) 100%)}
+.shop-hero h1{font-family:var(--font-title);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;color:var(--vino);animation:fadeUp .8s ease both}
+[data-theme="dark"] .shop-hero h1{color:var(--dorado-light)}
+.shop-hero h1::after{display:none}
+.shop-hero p{max-width:560px;margin:.8rem auto 0;color:var(--text-muted);font-size:1rem}
+.shop-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem}
+.ss-item{text-align:center}
+.ss-num{font-family:var(--font-title);font-size:2rem;font-weight:700;color:var(--vino);line-height:1;display:block}
+[data-theme="dark"] .ss-num{color:var(--dorado-light)}
+.ss-lbl{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+/* ── CONTROLES ── */
+.shop-controls{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.5rem;position:sticky;top:var(--nav-h);z-index:100;box-shadow:var(--shadow-sm)}
+.controls-inner{max-width:var(--max-w);margin:auto;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center}
+.search-wrap{flex:1;min-width:200px;position:relative}
+.search-wrap input{width:100%;padding:.6rem 1rem .6rem 2.6rem;border:1.5px solid var(--border);border-radius:30px;font-size:.88rem;color:var(--text-secondary);background:var(--bg-alt);transition:var(--tr);outline:none}
+.search-wrap input:focus{border-color:var(--vino);background:var(--surface);box-shadow:0 0 0 3px var(--vino-light)}
+.search-icon-s{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none}
+.filter-chips{display:flex;gap:.5rem;flex-wrap:wrap}
+.fchip{padding:.4rem 1rem;border-radius:30px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:.78rem;font-weight:700;cursor:pointer;transition:var(--tr)}
+.fchip:hover{border-color:var(--vino);color:var(--vino)}
+.fchip.active{background:linear-gradient(135deg,var(--vino),var(--purpura));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(122,26,46,.25)}
+[data-theme="dark"] .fchip.active{background:linear-gradient(135deg,var(--dorado),var(--vino))}
+.sort-sel{padding:.5rem 1.8rem .5rem .9rem;border:1.5px solid var(--border);border-radius:30px;background:var(--surface);font-size:.78rem;font-weight:700;color:var(--text-secondary);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;transition:var(--tr)}
+.results-info{font-size:.78rem;color:var(--text-muted);font-weight:600;white-space:nowrap;align-self:center}
+/* ── PRODUCTOS ── */
+.shop-grid{max-width:var(--max-w);margin:2rem auto;padding:0 1.5rem 5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1.6rem}
+.pcard{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow-md);overflow:hidden;transition:var(--tr);position:relative;display:flex;flex-direction:column;animation:fadeUp .6s ease both}
+.pcard:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:var(--border-med)}
+.pcard.hidden{display:none}
+.pc-img{position:relative;height:200px;background:linear-gradient(135deg,var(--vino-light),var(--purpura-light));display:flex;align-items:center;justify-content:center;cursor:zoom-in;overflow:hidden}
+.pc-emoji{font-size:4rem;transition:var(--tr)}
+.pcard:hover .pc-emoji{transform:scale(1.1)}
+.pc-quick{position:absolute;inset:0;background:linear-gradient(to top,rgba(75,32,96,.85) 0%,rgba(122,26,46,.5) 60%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;opacity:0;transition:var(--tr)}
+.pcard:hover .pc-quick{opacity:1}
+.pc-quick p{color:rgba(255,255,255,.9);font-size:.78rem;line-height:1.5;margin-bottom:.6rem}
+.btn-quick-add{width:100%;padding:.5rem;background:rgba(255,255,255,.95);color:var(--vino);border:none;border-radius:8px;font-family:var(--font-body);font-weight:800;font-size:.8rem;cursor:pointer;transition:var(--tr)}
+.btn-quick-add:hover{background:var(--dorado);color:#fff}
+.pc-badges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:.35rem;z-index:2}
+.badge-s{padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:800;letter-spacing:.4px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.b-desc{background:linear-gradient(135deg,#c0392b,#922b21);color:#fff}
+.b-new{background:linear-gradient(135deg,var(--purpura),var(--purpura-mid));color:#fff}
+.b-hot{background:linear-gradient(135deg,var(--dorado),#a0732b);color:#fff}
+.b-low{background:linear-gradient(135deg,#e67e22,#ca6f1e);color:#fff;animation:pulse 1.5s infinite}
+.pc-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;flex:1}
+.pc-cat{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--purpura-mid);margin-bottom:.3rem}
+.pc-name{font-family:var(--font-title);font-size:1.25rem;font-weight:700;color:var(--vino);margin-bottom:.25rem;line-height:1.2}
+[data-theme="dark"] .pc-name{color:var(--dorado-light)}
+.pc-origen{font-size:.75rem;color:var(--text-muted);margin-bottom:.7rem}
+.pc-origen span{color:var(--text-secondary)}
+.pc-specs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+.pc-spec{background:var(--bg-alt);border-radius:8px;padding:.25rem .6rem;font-size:.7rem;font-weight:700;color:var(--text-secondary)}
+.pc-price-row{display:flex;align-items:flex-end;gap:.5rem;margin-bottom:.9rem;margin-top:auto}
+.pc-price{font-family:var(--font-title);font-size:1.7rem;font-weight:700;color:var(--vino);line-height:1}
+[data-theme="dark"] .pc-price{color:var(--dorado-light)}
+.pc-price-before{font-size:.82rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:.2rem}
+.pc-desc-pct{background:rgba(192,57,43,.10);color:var(--rojo);font-size:.7rem;font-weight:800;padding:.15rem .5rem;border-radius:6px;margin-bottom:.2rem}
+.pc-stock{font-size:.72rem;font-weight:700;margin-bottom:.7rem}
+.stock-ok{color:var(--verde)}.stock-low{color:#e67e22}
+.stock-bar{height:4px;border-radius:99px;background:var(--bg-alt);margin-bottom:.8rem;overflow:hidden}
+.stock-fill{height:100%;border-radius:99px;transition:width .5s ease}
+.fill-ok{background:linear-gradient(90deg,var(--verde),#2ecc71)}
+.fill-low{background:linear-gradient(90deg,#e67e22,#f39c12)}
+.btn-add{width:100%;padding:.62rem;background:linear-gradient(135deg,var(--vino),var(--purpura));color:#fff;border:none;border-radius:10px;font-family:var(--font-body);font-weight:800;font-size:.85rem;cursor:pointer;transition:var(--tr);box-shadow:0 3px 12px rgba(122,26,46,.25);position:relative;overflow:hidden}
+.btn-add:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-add.added{background:linear-gradient(135deg,var(--verde),#0f5c2b)}
+/* ── CARRITO ── */
+#cart-fab{position:fixed;bottom:2rem;right:2rem;z-index:8000;width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,var(--vino),var(--purpura));color:#fff;border:none;cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);transition:var(--tr)}
+#cart-fab:hover{transform:scale(1.1)}
+#cart-count{position:absolute;top:-4px;right:-4px;background:var(--dorado);color:#fff;width:22px;height:22px;border-radius:50%;font-size:.7rem;font-weight:900;display:none;align-items:center;justify-content:center;border:2px solid var(--surface)}
+#cart-count.show{display:flex}
+#cart-panel{position:fixed;top:0;right:0;bottom:0;z-index:8001;width:380px;background:var(--surface);box-shadow:-8px 0 40px rgba(90,20,40,.18);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .38s cubic-bezier(.4,0,.2,1)}
+#cart-panel.open{transform:translateX(0)}
+.cart-head{background:linear-gradient(135deg,var(--vino-deep),var(--purpura));padding:1.1rem 1.4rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cart-head h3{font-family:var(--font-title);font-size:1.3rem;font-weight:700;color:#fff;margin:0}
+.cart-head h3::after{display:none}
+.cart-head p{color:rgba(255,255,255,.65);font-size:.75rem;margin:.1rem 0 0}
+.cart-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.cart-close:hover{background:rgba(255,255,255,.28)}
+.cart-items{flex:1;overflow-y:auto;padding:1rem}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text-muted);text-align:center;gap:.8rem}
+.ce-icon{font-size:3.5rem;opacity:.4}
+.cart-item{display:flex;gap:.9rem;align-items:flex-start;padding:.9rem;background:var(--bg-alt);border-radius:12px;border:1px solid var(--border);margin-bottom:.7rem;animation:fadeUp .25s ease}
+.ci-emoji{font-size:2rem;width:50px;height:50px;border-radius:10px;background:var(--vino-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-info{flex:1}
+.ci-name{font-weight:800;font-size:.88rem;color:var(--text-primary);margin-bottom:.15rem}
+.ci-detail{font-size:.75rem;color:var(--text-muted);margin-bottom:.5rem}
+.ci-controls{display:flex;align-items:center;gap:.5rem}
+.ci-qty-btn{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--vino);font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.ci-qty-btn:hover{background:var(--vino);color:#fff;border-color:var(--vino)}
+.ci-qty{font-weight:800;font-size:.88rem;color:var(--text-primary);min-width:20px;text-align:center}
+.ci-precio{font-weight:900;font-size:.95rem;color:var(--vino);margin-left:auto}
+[data-theme="dark"] .ci-precio{color:var(--dorado-light)}
+.ci-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.9rem;padding:.2rem;transition:var(--tr)}
+.ci-del:hover{color:var(--rojo)}
+.cart-foot{padding:1.2rem 1.4rem;border-top:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+.cart-subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.cart-subtotal span{font-size:.85rem;color:var(--text-muted);font-weight:600}
+.total-val{font-family:var(--font-title);font-size:1.6rem;font-weight:700;color:var(--vino)}
+[data-theme="dark"] .total-val{color:var(--dorado-light)}
+.cart-envio{font-size:.75rem;color:var(--verde);font-weight:700;margin-bottom:.8rem}
+.privacy-check{display:flex;align-items:flex-start;gap:.55rem;margin:.7rem 0;padding:.7rem .9rem;background:var(--vino-light);border:1.5px solid var(--border);border-radius:10px}
+.privacy-check input[type="checkbox"]{width:16px;height:16px;flex-shrink:0;margin-top:.15rem;accent-color:var(--vino);cursor:pointer}
+.privacy-check label{font-size:.74rem;color:var(--text-secondary);line-height:1.5;cursor:pointer}
+.privacy-check label a{color:var(--vino);font-weight:700;text-decoration:underline}
+.btn-checkout{width:100%;padding:.8rem;background:linear-gradient(135deg,var(--vino),var(--purpura));color:#fff;border:none;border-radius:12px;font-family:var(--font-body);font-weight:800;font-size:.95rem;cursor:pointer;transition:var(--tr);box-shadow:0 4px 16px rgba(122,26,46,.28)}
+.btn-checkout:hover{transform:translateY(-2px)}
+.btn-wsp-cart{width:100%;padding:.7rem;margin-top:.6rem;background:linear-gradient(135deg,#25d366,#128c3e);color:#fff;border:none;border-radius:12px;font-family:var(--font-body);font-weight:800;font-size:.88rem;cursor:pointer;transition:var(--tr)}
+.btn-wsp-cart:hover{transform:translateY(-2px)}
+/* ── COOKIE ── */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9000;background:linear-gradient(135deg,#1a0a10,#2a1040);color:#fff;padding:1rem 2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;box-shadow:0 -4px 24px rgba(0,0,0,.3);transform:translateY(100%);transition:transform .45s cubic-bezier(.4,0,.2,1)}
+#cookie-banner.show{transform:translateY(0)}
+.cb-text{flex:1;min-width:220px;font-size:.82rem;line-height:1.55;opacity:.88}
+.cb-text a{color:var(--dorado-light);text-decoration:underline}
+.cb-btns{display:flex;gap:.6rem;flex-shrink:0}
+.cb-accept{padding:.5rem 1.3rem;border-radius:30px;background:linear-gradient(135deg,var(--vino),var(--purpura));color:#fff;border:none;cursor:pointer;font-weight:800;font-size:.82rem;transition:var(--tr)}
+.cb-reject{padding:.5rem 1rem;border-radius:30px;background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.65);cursor:pointer;font-size:.8rem;transition:var(--tr)}
+#shop-toast{position:fixed;bottom:6.5rem;right:2rem;z-index:7999;background:linear-gradient(135deg,var(--vino),var(--purpura));color:#fff;padding:.8rem 1.2rem;border-radius:14px;box-shadow:var(--shadow-lg);font-size:.85rem;font-weight:700;transform:translateX(140%);transition:transform .35s cubic-bezier(.4,0,.2,1);max-width:280px;display:flex;align-items:center;gap:.6rem}
+#shop-toast.show{transform:translateX(0)}
+@media(max-width:600px){#cart-panel{width:100%}.shop-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
+</style>
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav"><ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="campo.html">Campo</a></li>
+      <li><a href="cursos.html">Cursos</a></li>
+      <li><a href="diagramas.html">Diagramas</a></li>
+      <li><a href="repositorio.html">Repositorio</a></li>
+      <li><a href="recursos.html">Recursos</a></li>
+      <li><a href="comunidad.html">Comunidad</a></li>
+      <li><a href="tienda.html" class="active">Tienda</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul></nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <button class="search-icon-btn" tabindex="-1">🔍</button>
+        <input type="text" id="header-search" placeholder="Buscar..." autocomplete="off">
+        <div id="search-dropdown"></div>
+      </div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- PROMO POPUP -->
+<div id="promo-overlay">
+  <div id="promo-box">
+    <div class="promo-banner">
+      <span class="promo-fire">🔥</span>
+      <h2>¡Ofertas de la Semana!</h2>
+      <p>Minerales seleccionados con descuentos exclusivos</p>
+    </div>
+    <div class="promo-body">
+      <div class="promo-items">
+        <div class="promo-item"><span class="pi-emoji">✨</span><div class="pi-name">Pirita Peruana</div><span class="pi-antes">S/ 25</span><span class="pi-precio">S/ 15</span></div>
+        <div class="promo-item"><span class="pi-emoji">💜</span><div class="pi-name">Amatista</div><span class="pi-antes">S/ 80</span><span class="pi-precio">S/ 55</span></div>
+        <div class="promo-item"><span class="pi-emoji">💙</span><div class="pi-name">Lazurita</div><span class="pi-antes">S/ 120</span><span class="pi-precio">S/ 89</span></div>
+        <div class="promo-item"><span class="pi-emoji">💚</span><div class="pi-name">Malaquita</div><span class="pi-antes">S/ 100</span><span class="pi-precio">S/ 70</span></div>
+      </div>
+      <div class="promo-timer">
+        <p>⏰ La oferta termina en</p>
+        <div class="timer-digits">
+          <div class="td"><span id="t-h">02</span><span>HRS</span></div>
+          <div class="td" style="background:var(--purpura)"><span id="t-m">59</span><span>MIN</span></div>
+          <div class="td" style="background:var(--dorado)"><span id="t-s">59</span><span>SEG</span></div>
+        </div>
+      </div>
+      <div class="promo-btns">
+        <button class="promo-btn-main" onclick="closePromo()">¡Ver todas las ofertas! →</button>
+        <button class="promo-btn-skip" onclick="closePromo()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="shop-hero">
+  <div class="container">
+    <h1>Tienda de Minerales</h1>
+    <p>Especímenes auténticos de colección seleccionados directamente de las mejores localidades. Cada pieza es única.</p>
+    <div class="shop-stats">
+      <div class="ss-item"><span class="ss-num" data-target="24">0</span><span class="ss-lbl">Minerales</span></div>
+      <div class="ss-item"><span class="ss-num" data-target="8">0</span><span class="ss-lbl">Categorías</span></div>
+      <div class="ss-item"><span class="ss-num" data-target="12">0</span><span class="ss-lbl">En oferta</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTROLES -->
+<div class="shop-controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <span class="search-icon-s">🔍</span>
+      <input type="text" id="search-input" placeholder="Buscar mineral, origen...">
+    </div>
+    <div class="filter-chips">
+      <button class="fchip active" data-cat="all">Todos</button>
+      <button class="fchip" data-cat="sulfuros">Sulfuros</button>
+      <button class="fchip" data-cat="silicatos">Silicatos</button>
+      <button class="fchip" data-cat="gemas">Gemas</button>
+      <button class="fchip" data-cat="carbonatos">Carbonatos</button>
+      <button class="fchip" data-cat="oxidos">Óxidos</button>
+    </div>
+    <select class="sort-sel" id="sort-sel">
+      <option value="default">Ordenar</option>
+      <option value="price-asc">Precio: menor a mayor</option>
+      <option value="price-desc">Precio: mayor a menor</option>
+      <option value="name">Nombre A–Z</option>
+      <option value="discount">Mayor descuento</option>
+    </select>
+    <span class="results-info" id="results-count">8 minerales</span>
+  </div>
+</div>
+
+<!-- PRODUCTOS -->
+<div class="shop-grid" id="shop-grid">
+
+  <div class="pcard" data-cat="sulfuros" data-price="15" data-name="Pirita Peruana" data-discount="40">
+    <div class="pc-badges"><span class="badge-s b-desc">−40% OFF</span><span class="badge-s b-hot">🔥 Popular</span></div>
+    <div class="pc-img"><div class="pc-emoji">✨</div>
+      <div class="pc-quick"><p>Cristales cúbicos perfectos. Brillo metálico excepcional. Localidad: Huanzalá, Ancash.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Pirita Peruana','✨','S/ 15',15,'Sulfuro · 250g · Ancash')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Sulfuros</div><div class="pc-name">Pirita Peruana</div>
+      <div class="pc-origen">📍 Huanzalá, <span>Ancash, Perú</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 250g</span><span class="pc-spec">📏 6×5×4cm</span><span class="pc-spec">✦ Col.</span></div>
+      <div class="pc-price-row"><div><div class="pc-price-before">S/ 25</div><div class="pc-desc-pct">−40%</div></div><div class="pc-price">S/ 15</div></div>
+      <div class="pc-stock stock-low">⚠ Solo 3 disponibles</div>
+      <div class="stock-bar"><div class="stock-fill fill-low" style="width:25%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Pirita Peruana','✨','S/ 15',15,'Sulfuro · 250g · Ancash')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="silicatos" data-price="55" data-name="Amatista Geoda" data-discount="31">
+    <div class="pc-badges"><span class="badge-s b-desc">−31% OFF</span></div>
+    <div class="pc-img"><div class="pc-emoji">💜</div>
+      <div class="pc-quick"><p>Geoda con cristales de color profundo. Formación ~100M años. Ideal para colección.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Amatista Geoda','💜','S/ 55',55,'Silicato · 2.3kg · Brasil')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Silicatos</div><div class="pc-name">Amatista Geoda</div>
+      <div class="pc-origen">📍 Minas Gerais, <span>Brasil</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 2.3kg</span><span class="pc-spec">📏 18×14cm</span><span class="pc-spec">⭐ Premium</span></div>
+      <div class="pc-price-row"><div><div class="pc-price-before">S/ 80</div><div class="pc-desc-pct">−31%</div></div><div class="pc-price">S/ 55</div></div>
+      <div class="pc-stock stock-ok">✓ 8 disponibles</div>
+      <div class="stock-bar"><div class="stock-fill fill-ok" style="width:65%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Amatista Geoda','💜','S/ 55',55,'Silicato · 2.3kg · Brasil')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="silicatos" data-price="89" data-name="Lazurita Azul" data-discount="0">
+    <div class="pc-badges"><span class="badge-s b-new">✦ Nuevo</span></div>
+    <div class="pc-img"><div class="pc-emoji">💙</div>
+      <div class="pc-quick"><p>Lapislázuli de máxima calidad. Tonalidad azul intenso con pirita diseminada natural.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Lazurita Azul','💙','S/ 89',89,'Silicato · 180g · Afganistán')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Silicatos</div><div class="pc-name">Lazurita Azul</div>
+      <div class="pc-origen">📍 Badakhshan, <span>Afganistán</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 180g</span><span class="pc-spec">📏 8×6×4cm</span><span class="pc-spec">⭐ Premium</span></div>
+      <div class="pc-price-row"><div class="pc-price">S/ 89</div></div>
+      <div class="pc-stock stock-ok">✓ 5 disponibles</div>
+      <div class="stock-bar"><div class="stock-fill fill-ok" style="width:50%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Lazurita Azul','💙','S/ 89',89,'Silicato · 180g · Afganistán')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="carbonatos" data-price="70" data-name="Malaquita Espejo" data-discount="30">
+    <div class="pc-badges"><span class="badge-s b-desc">−30% OFF</span></div>
+    <div class="pc-img"><div class="pc-emoji">💚</div>
+      <div class="pc-quick"><p>Bandas concéntricas naturales de verde intenso. Pieza única con acabado espejo natural.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Malaquita Espejo','💚','S/ 70',70,'Carbonato · 350g · Congo')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Carbonatos</div><div class="pc-name">Malaquita Espejo</div>
+      <div class="pc-origen">📍 Katanga, <span>Congo</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 350g</span><span class="pc-spec">📏 10×8×3cm</span><span class="pc-spec">✦ Col.</span></div>
+      <div class="pc-price-row"><div><div class="pc-price-before">S/ 100</div><div class="pc-desc-pct">−30%</div></div><div class="pc-price">S/ 70</div></div>
+      <div class="pc-stock stock-low">⚠ Solo 2 disponibles</div>
+      <div class="stock-bar"><div class="stock-fill fill-low" style="width:15%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Malaquita Espejo','💚','S/ 70',70,'Carbonato · 350g · Congo')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="gemas" data-price="220" data-name="Citrina Dorada" data-discount="0">
+    <div class="pc-badges"><span class="badge-s b-hot">⭐ Raro</span></div>
+    <div class="pc-img"><div class="pc-emoji">🌟</div>
+      <div class="pc-quick"><p>Cristal de cuarzo citrino natural sin tratamiento térmico. Color cálido excepcional.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Citrina Dorada','🌟','S/ 220',220,'Gema · 420g · Brasil')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Gemas</div><div class="pc-name">Citrina Dorada</div>
+      <div class="pc-origen">📍 R.G. do Sul, <span>Brasil</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 420g</span><span class="pc-spec">📏 12×9×8cm</span><span class="pc-spec">⭐ Raro</span></div>
+      <div class="pc-price-row"><div class="pc-price">S/ 220</div></div>
+      <div class="pc-stock stock-low">⚠ Solo 1 disponible</div>
+      <div class="stock-bar"><div class="stock-fill fill-low" style="width:8%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Citrina Dorada','🌟','S/ 220',220,'Gema · 420g · Brasil')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="oxidos" data-price="35" data-name="Hematita Rosa" data-discount="0">
+    <div class="pc-badges"><span class="badge-s b-new">✦ Nuevo</span></div>
+    <div class="pc-img"><div class="pc-emoji">🔴</div>
+      <div class="pc-quick"><p>Hematita en variedad especular con brillo metálico intenso. Cristales laminares bien formados.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Hematita Rosa','🔴','S/ 35',35,'Óxido · 290g · Brasil')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Óxidos</div><div class="pc-name">Hematita Rosa</div>
+      <div class="pc-origen">📍 Minas Gerais, <span>Brasil</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 290g</span><span class="pc-spec">📏 9×7×4cm</span><span class="pc-spec">✦ Col.</span></div>
+      <div class="pc-price-row"><div class="pc-price">S/ 35</div></div>
+      <div class="pc-stock stock-ok">✓ 10 disponibles</div>
+      <div class="stock-bar"><div class="stock-fill fill-ok" style="width:80%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Hematita Rosa','🔴','S/ 35',35,'Óxido · 290g · Brasil')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="gemas" data-price="145" data-name="Turquesa Natural" data-discount="0">
+    <div class="pc-badges"><span class="badge-s b-hot">⭐ Raro</span><span class="badge-s b-low">¡Último!</span></div>
+    <div class="pc-img"><div class="pc-emoji">🔷</div>
+      <div class="pc-quick"><p>Turquesa natural sin tratamiento. Color azul-verdoso intenso. Muy solicitada.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Turquesa Natural','🔷','S/ 145',145,'Gema · 85g · Irán')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Gemas</div><div class="pc-name">Turquesa Natural</div>
+      <div class="pc-origen">📍 Nishapur, <span>Irán</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 85g</span><span class="pc-spec">📏 5×4×3cm</span><span class="pc-spec">⭐ Raro</span></div>
+      <div class="pc-price-row"><div class="pc-price">S/ 145</div></div>
+      <div class="pc-stock stock-low">🔴 ¡Solo 1 disponible!</div>
+      <div class="stock-bar"><div class="stock-fill fill-low" style="width:5%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Turquesa Natural','🔷','S/ 145',145,'Gema · 85g · Irán')">🛒 Agregar al carrito</button></div>
+  </div>
+
+  <div class="pcard" data-cat="sulfuros" data-price="28" data-name="Galena Cristalizada" data-discount="0">
+    <div class="pc-img"><div class="pc-emoji">⬛</div>
+      <div class="pc-quick"><p>Cristales cúbicos perfectos de galena. Principal mena del plomo. Procedencia nacional.</p>
+        <button class="btn-quick-add" onclick="addToCart(this,'Galena Cristalizada','⬛','S/ 28',28,'Sulfuro · 310g · Pasco')">+ Agregar rápido</button></div></div>
+    <div class="pc-body"><div class="pc-cat">Sulfuros</div><div class="pc-name">Galena Cristalizada</div>
+      <div class="pc-origen">📍 Cerro de Pasco, <span>Perú</span></div>
+      <div class="pc-specs"><span class="pc-spec">⚖️ 310g</span><span class="pc-spec">📏 8×7×5cm</span><span class="pc-spec">✦ Col.</span></div>
+      <div class="pc-price-row"><div class="pc-price">S/ 28</div></div>
+      <div class="pc-stock stock-ok">✓ 7 disponibles</div>
+      <div class="stock-bar"><div class="stock-fill fill-ok" style="width:55%"></div></div>
+      <button class="btn-add" onclick="addToCart(this,'Galena Cristalizada','⬛','S/ 28',28,'Sulfuro · 310g · Pasco')">🛒 Agregar al carrito</button></div>
+  </div>
+
+</div>
+
+<!-- CARRITO FAB -->
+<button id="cart-fab" onclick="toggleCart()" title="Ver carrito">
+  🛒<div id="cart-count">0</div>
+</button>
+
+<!-- PANEL CARRITO -->
+<div id="cart-panel">
+  <div class="cart-head">
+    <div><h3>🛒 Mi Carrito</h3><p id="cart-head-count">0 productos</p></div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      <span class="ce-icon">🛒</span>
+      <p>Tu carrito está vacío</p>
+      <p style="font-size:.8rem;opacity:.6">Agrega minerales para comenzar</p>
+    </div>
+  </div>
+  <div class="cart-foot" id="cart-foot" style="display:none">
+    <div class="cart-subtotal">
+      <span>Total del pedido</span>
+      <span class="total-val" id="cart-total">S/ 0</span>
+    </div>
+    <div class="cart-envio">✅ Envío a coordinar por WhatsApp</div>
+    <div class="privacy-check">
+      <input type="checkbox" id="privacy-cb">
+      <label for="privacy-cb">He leído y acepto la <a href="privacidad.html" target="_blank">Política de Privacidad</a>. Mis datos se usan únicamente para procesar mi pedido.</label>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">Confirmar pedido →</button>
+    <button class="btn-wsp-cart" onclick="openWhatsApp()">💬 Pedir por WhatsApp</button>
+  </div>
+</div>
+
+<div id="shop-toast"></div>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <div class="cb-text">🍪 <strong>Usamos cookies técnicas</strong> para el funcionamiento del sitio. Al continuar aceptas nuestra <a href="privacidad.html">Política de Privacidad</a>.</div>
+  <div class="cb-btns">
+    <button class="cb-accept" onclick="acceptCookies()">Aceptar</button>
+    <button class="cb-reject" onclick="rejectCookies()">Solo esenciales</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="campo.html">Campo</a>
+      <a href="repositorio.html">Repositorio</a>
+      <a href="creditos.html">Créditos</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a> &nbsp;|&nbsp; <a href="terminos.html">Términos</a></p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<script>
+/* ── PROMO ── */
+function closePromo(){ document.getElementById('promo-overlay').classList.add('hide') }
+let totalSecs = 2*3600+59*60+59
+function updateTimer(){
+  const h=Math.floor(totalSecs/3600),m=Math.floor((totalSecs%3600)/60),s=totalSecs%60
+  document.getElementById('t-h').textContent=String(h).padStart(2,'0')
+  document.getElementById('t-m').textContent=String(m).padStart(2,'0')
+  document.getElementById('t-s').textContent=String(s).padStart(2,'0')
+  if(totalSecs>0) totalSecs--
+}
+updateTimer(); setInterval(updateTimer,1000)
+
+/* ── CARRITO ── */
+let cart=[]
+function toggleCart(){ document.getElementById('cart-panel').classList.toggle('open') }
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('cart-panel'),fab=document.getElementById('cart-fab')
+  if(panel.classList.contains('open')&&!panel.contains(e.target)&&e.target!==fab&&!fab.contains(e.target))
+    panel.classList.remove('open')
+})
+
+function addToCart(btn,name,emoji,priceStr,price,detail){
+  const existing=cart.find(i=>i.name===name)
+  if(existing) existing.qty++
+  else cart.push({name,emoji,priceStr,price,detail,qty:1})
+  renderCart()
+  showShopToast('✓ '+name+' agregado')
+  btn.textContent='✓ Agregado'; btn.classList.add('added')
+  setTimeout(()=>{ btn.textContent='🛒 Agregar al carrito'; btn.classList.remove('added') },2000)
+  document.getElementById('cart-panel').classList.add('open')
+}
+
+function removeFromCart(name){ cart=cart.filter(i=>i.name!==name); renderCart() }
+
+function changeQty(name,delta){
+  const item=cart.find(i=>i.name===name); if(!item) return
+  item.qty+=delta
+  if(item.qty<=0) removeFromCart(name); else renderCart()
+}
+
+function renderCart(){
+  const container=document.getElementById('cart-items')
+  const foot=document.getElementById('cart-foot')
+  const countEl=document.getElementById('cart-count')
+  const headCount=document.getElementById('cart-head-count')
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0)
+  const totalQty=cart.reduce((s,i)=>s+i.qty,0)
+
+  if(totalQty>0){ countEl.textContent=totalQty; countEl.classList.add('show') }
+  else countEl.classList.remove('show')
+  headCount.textContent=totalQty+' producto'+(totalQty!==1?'s':'')
+
+  if(cart.length===0){
+    container.innerHTML='<div class="cart-empty"><span class="ce-icon">🛒</span><p>Tu carrito está vacío</p><p style="font-size:.8rem;opacity:.6">Agrega minerales para comenzar</p></div>'
+    foot.style.display='none'; return
+  }
+
+  foot.style.display='block'
+  document.getElementById('cart-total').textContent='S/ '+total.toFixed(2)
+  container.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <div class="ci-emoji">${item.emoji}</div>
+      <div class="ci-info">
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-detail">${item.detail}</div>
+        <div class="ci-controls">
+          <button class="ci-qty-btn" onclick="changeQty('${item.name}',-1)">−</button>
+          <span class="ci-qty">${item.qty}</span>
+          <button class="ci-qty-btn" onclick="changeQty('${item.name}',1)">+</button>
+          <span style="font-size:.7rem;color:var(--text-muted);margin-left:.3rem">${item.priceStr} c/u</span>
+          <span class="ci-precio" style="margin-left:auto">S/ ${(item.price*item.qty).toFixed(2)}</span>
+          <button class="ci-del" onclick="removeFromCart('${item.name}')">🗑</button>
+        </div>
+      </div>
+    </div>`).join('')
+}
+
+function checkout(){
+  const cb=document.getElementById('privacy-cb')
+  if(cb&&!cb.checked){
+    showShopToast('⚠ Acepta la política de privacidad')
+    cb.closest('.privacy-check').style.borderColor='var(--rojo)'
+    setTimeout(()=>cb.closest('.privacy-check').style.borderColor='',2000)
+    return
+  }
+  if(cart.length===0) return
+  showShopToast('📦 Redirigiendo a WhatsApp...')
+  setTimeout(openWhatsApp,800)
+}
+
+function openWhatsApp(){
+  if(cart.length===0){ showShopToast('⚠ El carrito está vacío'); return }
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0)
+  let msg='Hola GeoPainite 👋, quiero hacer el siguiente pedido:\n\n'
+  cart.forEach(i=>{ msg+=`• ${i.name} x${i.qty} = S/ ${(i.price*i.qty).toFixed(2)}\n` })
+  msg+=`\n*Total: S/ ${total.toFixed(2)}*\n¿Está disponible?`
+  window.open('https://wa.me/+51914622770?text='+encodeURIComponent(msg),'_blank')
+}
+
+/* ── FILTROS ── */
+function applyFilters(){
+  const q=document.getElementById('search-input').value.toLowerCase().trim()
+  const cat=document.querySelector('.fchip.active').dataset.cat
+  const sort=document.getElementById('sort-sel').value
+  const cards=[...document.querySelectorAll('.pcard')]
+  let visible=0
+  cards.forEach(c=>{
+    const name=c.dataset.name.toLowerCase(),cardCat=c.dataset.cat
+    const matchCat=cat==='all'||cardCat===cat
+    const matchQ=!q||name.includes(q)||cardCat.includes(q)
+    if(matchCat&&matchQ){ c.classList.remove('hidden'); visible++ }
+    else c.classList.add('hidden')
+  })
+  const grid=document.getElementById('shop-grid')
+  const vis=[...document.querySelectorAll('.pcard:not(.hidden)')]
+  if(sort==='price-asc') vis.sort((a,b)=>+a.dataset.price-+b.dataset.price)
+  if(sort==='price-desc') vis.sort((a,b)=>+b.dataset.price-+a.dataset.price)
+  if(sort==='name') vis.sort((a,b)=>a.dataset.name.localeCompare(b.dataset.name))
+  if(sort==='discount') vis.sort((a,b)=>+b.dataset.discount-+a.dataset.discount)
+  vis.forEach((c,i)=>{ c.style.animationDelay=(i*.06)+'s'; grid.appendChild(c) })
+  document.getElementById('results-count').textContent=visible+' mineral'+(visible!==1?'es':'')
+}
+
+document.querySelectorAll('.fchip').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fchip').forEach(x=>x.classList.remove('active'))
+    b.classList.add('active'); applyFilters()
+  })
+})
+document.getElementById('search-input').addEventListener('input',applyFilters)
+document.getElementById('sort-sel').addEventListener('change',applyFilters)
+
+/* ── TOAST ── */
+let shopToastTimer
+function showShopToast(msg){
+  const t=document.getElementById('shop-toast')
+  t.textContent=msg; t.classList.add('show')
+  clearTimeout(shopToastTimer)
+  shopToastTimer=setTimeout(()=>t.classList.remove('show'),2800)
+}
+
+/* ── COOKIES ── */
+(function(){
+  if(!localStorage.getItem('gp_cookies'))
+    setTimeout(()=>document.getElementById('cookie-banner').classList.add('show'),1200)
+})()
+function acceptCookies(){ localStorage.setItem('gp_cookies','accepted'); document.getElementById('cookie-banner').classList.remove('show'); showShopToast('✓ Preferencias guardadas') }
+function rejectCookies(){ localStorage.setItem('gp_cookies','essential'); document.getElementById('cookie-banner').classList.remove('show') }
+
+window.closePromo=closePromo
+window.addToCart=addToCart
+window.removeFromCart=removeFromCart
+window.changeQty=changeQty
+window.checkout=checkout
+window.openWhatsApp=openWhatsApp
+window.acceptCookies=acceptCookies
+window.rejectCookies=rejectCookies
+</script>
+</body>
+</html>

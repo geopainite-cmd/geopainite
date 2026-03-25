@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos | GeoPainite</title>
+  <meta name="description" content="26 cursos de Ingeniería Geológica: Petrología, Estructural, Sedimentología, Económica y más.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="campo.html">Campo</a></li>
+        <li><a href="cursos.html" class="active">Cursos</a></li>
+        <li><a href="diagramas.html">Diagramas</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="recursos.html">Recursos</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="tienda.html">Tienda</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <button class="search-icon-btn" tabindex="-1">🔍</button>
+        <input type="text" id="header-search" placeholder="Buscar..." autocomplete="off">
+        <div id="search-dropdown"></div>
+      </div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>Cursos Académicos</h2>
+    <p>26 cursos de Ingeniería Geológica organizados por área. Cada curso incluye teoría, archivos e imágenes con criterio académico formal.</p>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num" data-target="26">0</span><span class="stat-label">Cursos</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="9">0</span><span class="stat-label">Activos</span></div>
+      <div class="stat-item"><span class="stat-num" data-target="6">0</span><span class="stat-label">Áreas</span></div>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+  <section class="section">
+
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem">
+      <div class="page-search-wrap" style="margin-bottom:0">
+        <span class="ps-icon">🔍</span>
+        <input type="text" id="curso-search" placeholder="Buscar curso...">
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-area="all">Todos</button>
+      <button class="filter-btn" data-area="basicas">🌍 Cs. Básicas</button>
+      <button class="filter-btn" data-area="petrologia">🌋 Petrología</button>
+      <button class="filter-btn" data-area="estructural">⚡ Estructural</button>
+      <button class="filter-btn" data-area="sedimento">🌊 Sedimento</button>
+      <button class="filter-btn" data-area="economica">💎 Económica</button>
+      <button class="filter-btn" data-area="ingenieria">🏗 Ingeniería</button>
+    </div>
+
+    <p class="result-count" id="curso-count">Mostrando 26 cursos</p>
+
+    <div class="grid" id="cursos-grid">
+
+      <div class="course-card reveal" data-area="basicas" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">🌍</div><div class="cc-name">Geología General</div>
+        <div class="cc-desc">Fundamentos de la geología: historia, procesos internos y externos.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">🔬</div><div class="cc-name">Cristalografía</div>
+        <div class="cc-desc">Sistemas cristalinos, simetría, morfología y propiedades de los cristales.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">💎</div><div class="cc-name">Mineralogía</div>
+        <div class="cc-desc">Identificación y clasificación de minerales: propiedades físicas y ópticas.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🔭</div><div class="cc-name">Mineralogía Óptica</div>
+        <div class="cc-desc">Propiedades ópticas de minerales en lámina delgada.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🦕</div><div class="cc-name">Paleontología</div>
+        <div class="cc-desc">Estudio de fósiles, bioestratigrafía y paleoecología.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🏔</div><div class="cc-name">Geomorfología</div>
+        <div class="cc-desc">Análisis del relieve terrestre y procesos geomorfológicos.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="petrologia" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">🌋</div><div class="cc-name">Petrología Ígnea</div>
+        <div class="cc-desc">Clasificación QAPF, texturas, series magmáticas y ambientes.</div>
+        <div class="cc-meta"><span class="cc-pill">Petrología</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="petrologia" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">🏜</div><div class="cc-name">Petrología Sedimentaria</div>
+        <div class="cc-desc">Clasificación de rocas sedimentarias, diagramas de Folk y Dunham.</div>
+        <div class="cc-meta"><span class="cc-pill">Petrología</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="petrologia" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">⛰</div><div class="cc-name">Petrología Metamórfica</div>
+        <div class="cc-desc">Metamorfismo regional y de contacto, facies metamórficas.</div>
+        <div class="cc-meta"><span class="cc-pill">Petrología</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="estructural" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">🗺</div><div class="cc-name">Geología Estructural</div>
+        <div class="cc-desc">Análisis de fallas, pliegues y proyección estereográfica.</div>
+        <div class="cc-meta"><span class="cc-pill">Estructural</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="estructural" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">📚</div><div class="cc-name">Estratigrafía</div>
+        <div class="cc-desc">Principios estratigráficos y correlación de secuencias.</div>
+        <div class="cc-meta"><span class="cc-pill">Estructural</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="estructural" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🗾</div><div class="cc-name">Cartografía Geológica</div>
+        <div class="cc-desc">Elaboración y lectura de mapas geológicos y secciones.</div>
+        <div class="cc-meta"><span class="cc-pill">Estructural</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="sedimento" data-status="active" onclick="openCourse(this)">
+        <div class="cc-icon">🌊</div><div class="cc-name">Sedimentología</div>
+        <div class="cc-desc">Procesos de transporte, depósito y estructuras sedimentarias.</div>
+        <div class="cc-meta"><span class="cc-pill">Sedimento</span><span class="cc-status status-active">Activo</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🇵🇪</div><div class="cc-name">Geología del Perú</div>
+        <div class="cc-desc">Estratigrafía, tectónica y magmatismo del territorio peruano.</div>
+        <div class="cc-meta"><span class="cc-pill">Regional</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="economica" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">⛏</div><div class="cc-name">Yacimientos Minerales</div>
+        <div class="cc-desc">Tipología de depósitos minerales y controles estructurales.</div>
+        <div class="cc-meta"><span class="cc-pill">Económica</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="economica" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🔩</div><div class="cc-name">Metalurgia</div>
+        <div class="cc-desc">Procesos metalúrgicos y concentración de minerales.</div>
+        <div class="cc-meta"><span class="cc-pill">Económica</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="economica" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🧪</div><div class="cc-name">Prospección Geoquímica</div>
+        <div class="cc-desc">Muestreo geoquímico y análisis de anomalías.</div>
+        <div class="cc-meta"><span class="cc-pill">Económica</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="economica" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">📡</div><div class="cc-name">Prospección Geofísica</div>
+        <div class="cc-desc">Métodos geofísicos aplicados: sísmica, gravimetría y magnéticos.</div>
+        <div class="cc-meta"><span class="cc-pill">Económica</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="ingenieria" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🏗</div><div class="cc-name">Geotecnia</div>
+        <div class="cc-desc">Mecánica de suelos y aplicaciones en obras de ingeniería.</div>
+        <div class="cc-meta"><span class="cc-pill">Ingeniería</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="ingenieria" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">⚙</div><div class="cc-name">Geomecánica</div>
+        <div class="cc-desc">Mecánica de rocas y clasificaciones geomecánicas.</div>
+        <div class="cc-meta"><span class="cc-pill">Ingeniería</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="ingenieria" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">💧</div><div class="cc-name">Hidrogeología</div>
+        <div class="cc-desc">Acuíferos, flujo de aguas subterráneas y análisis de pozos.</div>
+        <div class="cc-meta"><span class="cc-pill">Ingeniería</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="ingenieria" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🌿</div><div class="cc-name">Geología Ambiental</div>
+        <div class="cc-desc">Impacto ambiental minero, remediación y gestión ambiental.</div>
+        <div class="cc-meta"><span class="cc-pill">Ingeniería</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="ingenieria" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">🏚</div><div class="cc-name">Ingeniería Geológica</div>
+        <div class="cc-desc">Aplicación a túneles, taludes y cimentaciones.</div>
+        <div class="cc-meta"><span class="cc-pill">Ingeniería</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="ingenieria" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">⚠</div><div class="cc-name">Gestión de Riesgos</div>
+        <div class="cc-desc">Peligros naturales: deslizamientos, sismos e inundaciones.</div>
+        <div class="cc-meta"><span class="cc-pill">Ingeniería</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">📊</div><div class="cc-name">Geoestadística</div>
+        <div class="cc-desc">Análisis estadístico de datos geológicos, kriging y estimación.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+      <div class="course-card reveal" data-area="basicas" data-status="soon" onclick="openCourseSoon(this)">
+        <div class="cc-icon">📝</div><div class="cc-name">Investigación en Geología</div>
+        <div class="cc-desc">Metodología científica y elaboración de informes técnicos.</div>
+        <div class="cc-meta"><span class="cc-pill">Cs. Básicas</span><span class="cc-status status-soon">Pronto</span></div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div class="banner-cta">
+  <div class="container">
+    <h2>¿Quieres colaborar con contenido?</h2>
+    <p>Si tienes material de calidad académica y deseas contribuir, escríbenos.</p>
+    <a href="contacto.html" class="btn btn-dorado">Contactar →</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="repositorio.html">Repositorio</a>
+      <a href="comunidad.html">Comunidad</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<script>
+const filterBtns = document.querySelectorAll('.filter-btn')
+const cards = document.querySelectorAll('.course-card')
+const searchIn = document.getElementById('curso-search')
+const countEl  = document.getElementById('curso-count')
+
+function applyFilter() {
+  const area = document.querySelector('.filter-btn.active').dataset.area
+  const q    = searchIn.value.toLowerCase().trim()
+  let vis = 0
+  cards.forEach(c => {
+    const matchArea = area === 'all' || c.dataset.area === area
+    const name = c.querySelector('.cc-name').textContent.toLowerCase()
+    const desc = c.querySelector('.cc-desc').textContent.toLowerCase()
+    const matchQ = !q || name.includes(q) || desc.includes(q)
+    const show = matchArea && matchQ
+    c.classList.toggle('hidden', !show)
+    if (show) vis++
+  })
+  countEl.textContent = `Mostrando ${vis} curso${vis !== 1 ? 's' : ''}`
+}
+
+filterBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    filterBtns.forEach(x => x.classList.remove('active'))
+    b.classList.add('active')
+    applyFilter()
+  })
+})
+searchIn.addEventListener('input', applyFilter)
+
+function openCourse(card) {
+  if (typeof Auth !== 'undefined') {
+    Auth.requireLogin(() => {
+      Toast.show('Abriendo: ' + card.querySelector('.cc-name').textContent, 'info')
+    })
+  } else {
+    window.ModalAuth?.open()
+  }
+}
+
+function openCourseSoon(card) {
+  const name = card.querySelector('.cc-name').textContent
+  if (typeof Toast !== 'undefined') {
+    Toast.show(`${name} estará disponible muy pronto`, 'info')
+  }
+}
+
+window.openCourse = openCourse
+window.openCourseSoon = openCourseSoon
+</script>
+</body>
+</html>

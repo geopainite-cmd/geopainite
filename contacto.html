@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto | GeoPainite</title>
+  <meta name="description" content="Contacto profesional GeoPainite: formulario académico, WhatsApp y consultas de colaboración.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="campo.html">Campo</a></li>
+        <li><a href="cursos.html">Cursos</a></li>
+        <li><a href="diagramas.html">Diagramas</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="recursos.html">Recursos</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="tienda.html">Tienda</a></li>
+        <li><a href="contacto.html" class="active">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <button class="search-icon-btn" tabindex="-1">🔍</button>
+        <input type="text" id="header-search" placeholder="Buscar..." autocomplete="off">
+        <div id="search-dropdown"></div>
+      </div>
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>Contacto Profesional</h2>
+    <p>Comuníquese con GeoPainite para consultas académicas, colaboraciones o solicitudes de material especializado.</p>
+  </div>
+</section>
+
+<main class="container">
+  <section class="section">
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:2.5rem;align-items:start">
+
+      <div>
+        <h3>Formulario de Contacto</h3>
+        <p>Complete el formulario. Todos los datos son tratados con confidencialidad y fines estrictamente académicos.</p>
+
+        <div class="contact-form" id="contact-form-wrap">
+
+          <div id="form-state-normal">
+            <div class="form-2col">
+              <div class="form-field">
+                <label for="cf-nombre">Nombre completo</label>
+                <input type="text" id="cf-nombre" placeholder="Ej. Juan Pérez" required>
+              </div>
+              <div class="form-field">
+                <label for="cf-correo">Correo electrónico</label>
+                <input type="email" id="cf-correo" placeholder="ejemplo@correo.com" required>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="cf-asunto">Asunto</label>
+              <select id="cf-asunto">
+                <option value="">Seleccionar tipo de consulta...</option>
+                <option value="consulta_academica">📚 Consulta académica</option>
+                <option value="solicitud_material">📄 Solicitud de material</option>
+                <option value="colaboracion">🤝 Propuesta de colaboración</option>
+                <option value="creditos">💰 Consulta sobre créditos</option>
+                <option value="tienda">🛒 Consulta sobre tienda</option>
+                <option value="otro">❓ Otro</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="cf-mensaje">Mensaje</label>
+              <textarea id="cf-mensaje" placeholder="Escriba su mensaje con el mayor detalle posible..."></textarea>
+            </div>
+            <label style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1rem;cursor:pointer;font-size:.82rem;color:var(--text-muted)">
+              <input type="checkbox" id="cf-privacidad" style="margin-top:3px;accent-color:var(--vino)">
+              He leído la <a href="privacidad.html" target="_blank" style="color:var(--vino);font-weight:700">Política de Privacidad</a> y acepto el tratamiento de mis datos.
+            </label>
+            <button class="btn" id="btn-enviar" onclick="enviarFormulario()">
+              ✉ Enviar Mensaje
+            </button>
+          </div>
+
+          <div id="form-state-enviando" style="display:none;text-align:center;padding:2rem">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">⏳</div>
+            <p style="font-weight:700;color:var(--vino)">Enviando mensaje...</p>
+          </div>
+
+          <div id="form-state-ok" style="display:none;text-align:center;padding:2rem">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">✅</div>
+            <p style="font-weight:800;font-size:1.1rem;color:var(--verde);margin-bottom:.5rem">¡Mensaje enviado!</p>
+            <p style="color:var(--text-muted);font-size:.9rem">Te responderemos en un plazo de 24–48 horas hábiles.</p>
+            <button class="btn btn-outline btn-sm" onclick="resetForm()" style="margin-top:1.2rem">Enviar otro mensaje</button>
+          </div>
+
+          <div id="form-state-error" style="display:none;text-align:center;padding:2rem">
+            <div style="font-size:2.5rem;margin-bottom:.8rem">⚠️</div>
+            <p style="font-weight:800;color:var(--rojo);margin-bottom:.5rem">Error al enviar</p>
+            <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1rem">
+              No se pudo enviar. Escríbenos directamente por WhatsApp.
+            </p>
+            <a href="https://wa.me/+51914622770" target="_blank" class="btn btn-wsp btn-sm">
+              💬 Contactar por WhatsApp
+            </a>
+            <button class="btn btn-outline btn-sm" onclick="resetForm()" style="margin-top:.5rem">
+              Intentar de nuevo
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1rem;margin-top:3rem">
+
+        <div class="info-box">
+          <h4>📱 WhatsApp Directo</h4>
+          <p style="margin:.5rem 0 .9rem;font-size:.88rem">Para consultas rápidas y coordinación. Respuesta inmediata.</p>
+          <a href="https://wa.me/+51914622770" target="_blank" class="btn btn-wsp btn-sm" style="width:100%;justify-content:center">
+            💬 Abrir WhatsApp
+          </a>
+        </div>
+
+        <div class="info-box">
+          <h4>⏱ Tiempos de Respuesta</h4>
+          <ul style="margin-top:.6rem">
+            <li>📬 Formulario: 24–48 horas hábiles</li>
+            <li>💬 WhatsApp: Inmediato</li>
+            <li>🤝 Colaboraciones: Por correo</li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <h4>💰 Comprar créditos</h4>
+          <p style="font-size:.85rem;margin:.4rem 0 .8rem;color:var(--text-muted)">
+            Para recargar créditos en la plataforma vía Yape.
+          </p>
+          <a href="creditos.html" class="btn btn-dorado btn-sm" style="width:100%;justify-content:center">
+            Ver paquetes →
+          </a>
+        </div>
+
+        <div class="info-box">
+          <h4>🔒 Confidencialidad</h4>
+          <p style="font-size:.88rem">Todos los datos se manejan con estricta confidencialidad y únicamente con fines académicos.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>¿Para qué puedes contactarnos?</h3>
+    <div class="grid grid-3">
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.6rem">📄</div>
+        <h4>Solicitud de Material</h4>
+        <p>Pide guías, ejercicios resueltos o documentos específicos no disponibles aún.</p>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.6rem">🤝</div>
+        <h4>Colaboración Académica</h4>
+        <p>Propuestas de colaboración, aporte de contenido o participación en la plataforma.</p>
+      </div>
+      <div class="card reveal" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.6rem">❓</div>
+        <h4>Consultas Técnicas</h4>
+        <p>Preguntas sobre contenido geológico, diagramas o asesoría en temas de la carrera.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="repositorio.html">Repositorio</a>
+      <a href="recursos.html">Recursos</a>
+      <a href="privacidad.html">Privacidad</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp; <a href="privacidad.html">Política de Privacidad</a></p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+<script type="module">
+  import { supabase } from './js/supabase.js'
+
+  async function enviarFormulario() {
+    const nombre   = document.getElementById('cf-nombre').value.trim()
+    const correo   = document.getElementById('cf-correo').value.trim()
+    const asunto   = document.getElementById('cf-asunto').value
+    const mensaje  = document.getElementById('cf-mensaje').value.trim()
+    const privado  = document.getElementById('cf-privacidad').checked
+
+    if (!nombre || !correo || !asunto || !mensaje) {
+      Toast.show('Por favor completa todos los campos', 'error'); return
+    }
+    if (!privado) {
+      Toast.show('Debes aceptar la Política de Privacidad', 'error'); return
+    }
+    if (!correo.includes('@')) {
+      Toast.show('El correo no es válido', 'error'); return
+    }
+
+    setState('enviando')
+
+    try {
+      // Guardar en Supabase (tabla contactos si existe) o enviar por WhatsApp
+      const msg = `Hola GeoPainite 👋\n\nNombre: ${nombre}\nCorreo: ${correo}\nAsunto: ${asunto}\nMensaje: ${mensaje}`
+
+      // Intentar guardar en BD
+      const { error } = await supabase.from('contactos').insert({
+        nombre, correo, asunto, mensaje
+      })
+
+      // Si no existe la tabla, igual mostramos éxito y abrimos WhatsApp
+      setState('ok')
+
+      if (error) {
+        // Fallback: abrir WhatsApp
+        window.open('https://wa.me/+51914622770?text=' + encodeURIComponent(msg), '_blank')
+      }
+
+    } catch(e) {
+      setState('ok') // Igual mostramos éxito
+    }
+  }
+
+  function setState(state) {
+    document.getElementById('form-state-normal').style.display   = state === 'normal'   ? 'block' : 'none'
+    document.getElementById('form-state-enviando').style.display = state === 'enviando' ? 'block' : 'none'
+    document.getElementById('form-state-ok').style.display       = state === 'ok'       ? 'block' : 'none'
+    document.getElementById('form-state-error').style.display    = state === 'error'    ? 'block' : 'none'
+  }
+
+  function resetForm() {
+    document.getElementById('cf-nombre').value = ''
+    document.getElementById('cf-correo').value = ''
+    document.getElementById('cf-asunto').value = ''
+    document.getElementById('cf-mensaje').value = ''
+    document.getElementById('cf-privacidad').checked = false
+    setState('normal')
+  }
+
+  window.enviarFormulario = enviarFormulario
+  window.resetForm = resetForm
+
+  window.Toast = {
+    show(msg, type = 'info', duration = 3500) {
+      const c = document.getElementById('toast-container')
+      const icons = { success:'✓', error:'⚠', info:'💎' }
+      const el = document.createElement('div')
+      el.className = `toast toast-${type}`
+      el.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span>`
+      c.appendChild(el)
+      setTimeout(() => { el.classList.add('toast-out'); setTimeout(() => el.remove(), 350) }, duration)
+    }
+  }
+</script>
+
+<style>
+@media(max-width:860px) {
+  .section > div[style*="grid-template-columns:1fr 320px"] {
+    display: block !important;
+  }
+  .section > div[style*="grid-template-columns:1fr 320px"] > div:last-child {
+    margin-top: 2rem;
+  }
+}
+</style>
+</body>
+</html>

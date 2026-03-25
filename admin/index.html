@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | GeoPainite</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body { background: var(--bg-alt); }
+    .admin-layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+    /* ── SIDEBAR ── */
+    .admin-sidebar { background:linear-gradient(170deg,var(--vino-deep),var(--purpura)); padding:0; position:fixed; top:0; left:0; bottom:0; width:240px; z-index:100; display:flex; flex-direction:column; }
+    .sidebar-logo { padding:1.5rem 1.4rem; border-bottom:1px solid rgba(255,255,255,.1); }
+    .sidebar-logo h2 { font-family:var(--font-title); font-size:1.4rem; color:#fff; margin:0; }
+    .sidebar-logo h2::after { display:none; }
+    .sidebar-logo p { color:rgba(255,255,255,.5); font-size:.72rem; margin:.2rem 0 0; }
+    .sidebar-nav { flex:1; padding:1rem 0; overflow-y:auto; }
+    .sidebar-section { padding:.5rem 1rem .2rem; font-size:.62rem; font-weight:800; text-transform:uppercase; letter-spacing:.8px; color:rgba(255,255,255,.35); margin-top:.5rem; }
+    .sidebar-link { display:flex; align-items:center; gap:.7rem; padding:.65rem 1.4rem; color:rgba(255,255,255,.7); font-size:.84rem; font-weight:600; cursor:pointer; transition:var(--tr); border:none; background:none; width:100%; text-align:left; text-decoration:none; }
+    .sidebar-link:hover { background:rgba(255,255,255,.08); color:#fff; }
+    .sidebar-link.active { background:rgba(255,255,255,.15); color:#fff; border-right:3px solid var(--dorado); }
+    .sidebar-link .sl-icon { font-size:1.05rem; width:22px; text-align:center; }
+    .sidebar-bottom { padding:1rem 1.4rem; border-top:1px solid rgba(255,255,255,.1); }
+    .admin-user { display:flex; align-items:center; gap:.6rem; }
+    .admin-avatar { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; color:#fff; flex-shrink:0; }
+    .admin-info p { color:#fff; font-size:.82rem; font-weight:700; margin:0; }
+    .admin-info span { color:rgba(255,255,255,.5); font-size:.7rem; }
+    /* ── MAIN ── */
+    .admin-main { margin-left:240px; padding:2rem; min-height:100vh; }
+    .admin-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+    .admin-topbar h1 { font-family:var(--font-title); font-size:1.8rem; color:var(--vino); margin:0; }
+    [data-theme="dark"] .admin-topbar h1 { color:var(--dorado-light); }
+    .admin-topbar h1::after { display:none; }
+    /* ── STATS ── */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.2rem; margin-bottom:2rem; }
+    .stat-card { background:var(--surface); border-radius:var(--radius); border:1.5px solid var(--border); padding:1.3rem 1.4rem; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:1rem; transition:var(--tr); }
+    .stat-card:hover { box-shadow:var(--shadow-md); transform:translateY(-3px); }
+    .stat-icon { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+    .si-purple { background:var(--purpura-light); }
+    .si-gold   { background:var(--dorado-bg); }
+    .si-green  { background:rgba(26,122,58,.1); }
+    .si-red    { background:rgba(192,57,43,.1); }
+    .stat-info p { font-size:.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.4px; margin:0 0 .2rem; }
+    .stat-info h3 { font-family:var(--font-title); font-size:1.8rem; font-weight:700; color:var(--vino); margin:0; line-height:1; }
+    [data-theme="dark"] .stat-info h3 { color:var(--dorado-light); }
+    .stat-info h3::after { display:none; }
+    /* ── SECCIONES ── */
+    .admin-section { display:none; }
+    .admin-section.active { display:block; animation:fadeUp .3s ease; }
+    /* ── TABLA ── */
+    .admin-table-wrap { background:var(--surface); border-radius:var(--radius); border:1.5px solid var(--border); box-shadow:var(--shadow-sm); overflow:hidden; margin-top:1.2rem; }
+    .admin-table-head { padding:1rem 1.4rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.8rem; }
+    .admin-table-head h3 { font-family:var(--font-title); font-size:1.2rem; color:var(--vino); margin:0; }
+    [data-theme="dark"] .admin-table-head h3 { color:var(--dorado-light); }
+    .admin-table-head h3::after { display:none; }
+    table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    thead tr { background:var(--bg-alt); }
+    th { padding:.7rem 1rem; text-align:left; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--text-muted); border-bottom:1px solid var(--border); }
+    td { padding:.75rem 1rem; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:middle; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:var(--vino-light); }
+    .rol-badge { padding:.2rem .7rem; border-radius:20px; font-size:.7rem; font-weight:800; text-transform:uppercase; }
+    .rol-admin   { background:linear-gradient(135deg,var(--vino),var(--purpura)); color:#fff; }
+    .rol-premium { background:linear-gradient(135deg,var(--dorado),#a0732b); color:#fff; }
+    .rol-free    { background:var(--bg-alt); color:var(--text-muted); border:1px solid var(--border); }
+    .estado-badge { padding:.2rem .7rem; border-radius:20px; font-size:.7rem; font-weight:800; }
+    .estado-aprobado  { background:rgba(26,122,58,.1); color:var(--verde); }
+    .estado-pendiente { background:rgba(201,147,58,.1); color:var(--dorado); }
+    .estado-rechazado { background:rgba(192,57,43,.1); color:var(--rojo); }
+    .estado-activo    { background:rgba(26,122,58,.1); color:var(--verde); }
+    .estado-suspendido{ background:rgba(192,57,43,.1); color:var(--rojo); }
+    /* ── BOTONES ACCIÓN ── */
+    .action-btns { display:flex; gap:.4rem; flex-wrap:wrap; }
+    .btn-xs { padding:.28rem .7rem; border-radius:8px; font-size:.72rem; font-weight:700; border:none; cursor:pointer; transition:var(--tr); }
+    .btn-xs-primary { background:var(--vino); color:#fff; }
+    .btn-xs-gold    { background:var(--dorado); color:#fff; }
+    .btn-xs-green   { background:var(--verde); color:#fff; }
+    .btn-xs-red     { background:var(--rojo); color:#fff; }
+    .btn-xs-gray    { background:var(--bg-alt); color:var(--text-muted); border:1px solid var(--border); }
+    .btn-xs:hover   { opacity:.85; transform:translateY(-1px); }
+    /* ── MODAL CRÉDITOS ── */
+    .creditos-modal { position:fixed; inset:0; z-index:2000; background:rgba(8,5,15,.72); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; padding:1rem; }
+    .creditos-modal.open { display:flex; animation:fadeIn .25s ease; }
+    .creditos-box { background:var(--surface); border-radius:20px; width:100%; max-width:400px; box-shadow:var(--shadow-xl); overflow:hidden; animation:slideUp .3s ease; }
+    .creditos-head { background:linear-gradient(135deg,var(--vino-deep),var(--purpura)); padding:1.2rem 1.5rem; display:flex; align-items:center; justify-content:space-between; }
+    .creditos-head h3 { font-family:var(--font-title); font-size:1.2rem; color:#fff; margin:0; }
+    .creditos-head h3::after { display:none; }
+    .creditos-body { padding:1.5rem; }
+    .table-search { padding:.45rem 1rem; border:1.5px solid var(--border); border-radius:30px; font-size:.82rem; background:var(--bg-alt); color:var(--text-secondary); outline:none; transition:var(--tr); min-width:200px; }
+    .table-search:focus { border-color:var(--vino); background:var(--surface); }
+    @media(max-width:860px){.admin-sidebar{transform:translateX(-100%);transition:transform .3s ease}.admin-sidebar.open{transform:translateX(0)}.admin-main{margin-left:0;padding:1rem}.stats-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="sidebar-logo">
+      <h2>💎 GeoPainite</h2>
+      <p>Panel de Administración</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Principal</div>
+      <button class="sidebar-link active" onclick="showSection('dashboard')">
+        <span class="sl-icon">📊</span> Dashboard
+      </button>
+      <div class="sidebar-section">Usuarios</div>
+      <button class="sidebar-link" onclick="showSection('usuarios')">
+        <span class="sl-icon">👥</span> Usuarios
+      </button>
+      <button class="sidebar-link" onclick="showSection('creditos')">
+        <span class="sl-icon">💰</span> Créditos
+      </button>
+      <div class="sidebar-section">Contenido</div>
+      <button class="sidebar-link" onclick="showSection('archivos')">
+        <span class="sl-icon">📁</span> Archivos
+      </button>
+      <button class="sidebar-link" onclick="showSection('pendientes')">
+        <span class="sl-icon">⏳</span> Pendientes
+        <span id="badge-pendientes" style="background:var(--rojo);color:#fff;font-size:.62rem;font-weight:900;padding:1px 7px;border-radius:20px;margin-left:auto;display:none">0</span>
+      </button>
+      <div class="sidebar-section">Sistema</div>
+      <button class="sidebar-link" onclick="showSection('transacciones')">
+        <span class="sl-icon">📈</span> Transacciones
+      </button>
+      <button class="sidebar-link" onclick="showSection('reportes')">
+        <span class="sl-icon">🚨</span> Reportes
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="admin-user">
+        <div class="admin-avatar" id="admin-avatar">A</div>
+        <div class="admin-info">
+          <p id="admin-nombre">Admin</p>
+          <span>Administrador</span>
+        </div>
+      </div>
+      <button onclick="adminLogout()"
+        style="width:100%;margin-top:.8rem;padding:.4rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);border-radius:8px;cursor:pointer;font-size:.78rem;font-weight:700;transition:var(--tr)">
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1 id="section-title">Dashboard</h1>
+      <div style="display:flex;gap:.6rem;align-items:center">
+        <button onclick="toggleTheme()"
+          style="padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:30px;background:var(--surface);font-size:.8rem;font-weight:700;cursor:pointer;color:var(--text-secondary)">
+          🌙 Tema
+        </button>
+        <a href="../index.html" target="_blank"
+          style="padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:30px;background:var(--surface);font-size:.8rem;font-weight:700;color:var(--text-secondary);text-decoration:none">
+          🌐 Ver web
+        </a>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="admin-section active" id="section-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon si-purple">👥</div>
+          <div class="stat-info"><p>Usuarios totales</p><h3 id="stat-usuarios">—</h3></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-gold">💰</div>
+          <div class="stat-info"><p>Créditos en circulación</p><h3 id="stat-creditos">—</h3></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-green">📁</div>
+          <div class="stat-info"><p>Archivos aprobados</p><h3 id="stat-archivos">—</h3></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-red">⏳</div>
+          <div class="stat-info"><p>Pendientes revisión</p><h3 id="stat-pendientes">—</h3></div>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>👥 Últimos registros</h3>
+          <button class="btn btn-sm" onclick="showSection('usuarios')">Ver todos</button>
+        </div>
+        <table>
+          <thead><tr><th>Usuario</th><th>Email</th><th>Rol</th><th>Créditos</th><th>Registro</th></tr></thead>
+          <tbody id="tabla-ultimos-usuarios">
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- USUARIOS -->
+    <div class="admin-section" id="section-usuarios">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>👥 Todos los usuarios</h3>
+          <input type="text" class="table-search" placeholder="Buscar usuario..."
+            oninput="filtrarTabla('tabla-usuarios', this.value)">
+        </div>
+        <table>
+          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Créditos</th><th>Estado</th><th>Registro</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-usuarios">
+            <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CRÉDITOS -->
+    <div class="admin-section" id="section-creditos">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>💰 Gestión de créditos</h3>
+          <input type="text" class="table-search" placeholder="Buscar usuario..."
+            oninput="filtrarTabla('tabla-creditos', this.value)">
+        </div>
+        <table>
+          <thead><tr><th>Usuario</th><th>Email</th><th>Saldo actual</th><th>Ganados</th><th>Gastados</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-creditos">
+            <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ARCHIVOS -->
+    <div class="admin-section" id="section-archivos">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>📁 Archivos aprobados</h3>
+          <input type="text" class="table-search" placeholder="Buscar archivo..."
+            oninput="filtrarTabla('tabla-archivos', this.value)">
+        </div>
+        <table>
+          <thead><tr><th>Título</th><th>Tipo</th><th>Categoría</th><th>Calidad</th><th>Autor</th><th>Descargas</th><th>Costo</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-archivos">
+            <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PENDIENTES -->
+    <div class="admin-section" id="section-pendientes">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>⏳ Pendientes de revisión</h3>
+          <button class="btn btn-sm" onclick="cargarPendientes()">🔄 Actualizar</button>
+        </div>
+        <table>
+          <thead><tr><th>Título</th><th>Tipo</th><th>Subido por</th><th>Fecha</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-pendientes">
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TRANSACCIONES -->
+    <div class="admin-section" id="section-transacciones">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>📈 Historial de transacciones</h3>
+        </div>
+        <table>
+          <thead><tr><th>Usuario</th><th>Tipo</th><th>Cantidad</th><th>Concepto</th><th>Saldo nuevo</th><th>Fecha</th></tr></thead>
+          <tbody id="tabla-transacciones">
+            <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REPORTES -->
+    <div class="admin-section" id="section-reportes">
+      <div class="admin-table-wrap">
+        <div class="admin-table-head">
+          <h3>🚨 Reportes de contenido</h3>
+        </div>
+        <table>
+          <thead><tr><th>Archivo</th><th>Reportado por</th><th>Motivo</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-reportes">
+            <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text-muted)">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL CRÉDITOS -->
+<div class="creditos-modal" id="modal-creditos">
+  <div class="creditos-box">
+    <div class="creditos-head">
+      <h3>💰 Editar créditos</h3>
+      <button onclick="cerrarModalCreditos()"
+        style="background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.9rem">✕</button>
+    </div>
+    <div class="creditos-body">
+      <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">
+        Usuario: <strong id="creditos-usuario-nombre" style="color:var(--vino)">—</strong><br>
+        Saldo actual: <strong id="creditos-saldo-actual" style="color:var(--vino)">—</strong> créditos
+      </p>
+      <input type="hidden" id="creditos-usuario-id">
+      <div class="form-field">
+        <label>Operación</label>
+        <select id="creditos-operacion">
+          <option value="sumar">➕ Sumar créditos</option>
+          <option value="restar">➖ Restar créditos</option>
+          <option value="establecer">🎯 Establecer cantidad exacta</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Cantidad</label>
+        <input type="number" id="creditos-cantidad" placeholder="Ej. 100" min="1">
+      </div>
+      <div class="form-field">
+        <label>Motivo</label>
+        <input type="text" id="creditos-motivo" placeholder="Ej. Recarga por Yape S/20">
+      </div>
+      <button class="btn" style="width:100%;justify-content:center;margin-top:.5rem"
+        onclick="aplicarCreditos()">
+        Aplicar cambio
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script type="module">
+  import { supabase } from '../js/supabase.js'
+  import {
+    verificarAdmin,
+    cargarDashboard,
+    cargarUsuarios,
+    cargarArchivos,
+    cargarPendientes,
+    cargarTransacciones,
+    cargarReportes,
+    showSection,
+    filtrarTabla,
+    AdminActions,
+    AdminToast
+  } from '../js/admin.js'
+
+  // Aplicar tema guardado
+  const tema = localStorage.getItem('gp_theme')
+  if (tema) document.documentElement.setAttribute('data-theme', tema)
+
+  // Iniciar
+  async function init() {
+    const perfil = await verificarAdmin()
+    if (!perfil) return
+
+    // Cargar todo en paralelo
+    await Promise.all([
+      cargarDashboard(),
+      cargarUsuarios(),
+      cargarArchivos(),
+      cargarPendientes(),
+      cargarTransacciones(),
+      cargarReportes()
+    ])
+
+    AdminToast.show('✅ Panel cargado correctamente', 'success')
+  }
+
+  // Exponer funciones para uso global en onclick
+  window.cargarPendientes = cargarPendientes
+
+  window.adminLogout = async () => {
+    await supabase.auth.signOut()
+    window.location.href = '../index.html'
+  }
+
+  window.toggleTheme = () => {
+    const html = document.documentElement
+    const isDark = html.getAttribute('data-theme') === 'dark'
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark')
+    localStorage.setItem('gp_theme', isDark ? 'light' : 'dark')
+  }
+
+  init()
+</script>
+</body>
+</html>
