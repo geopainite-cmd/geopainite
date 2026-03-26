@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil | GeoPainite</title>
+  <meta name="description" content="Tu perfil en GeoPainite: créditos, historial de descargas y configuración de cuenta.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .perfil-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    /* ── CARD DE PERFIL ── */
+    .perfil-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--nav-h) + 1rem);
+    }
+
+    .perfil-header {
+      background: linear-gradient(135deg, var(--vino-deep), var(--purpura));
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .perfil-avatar-big {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      border: 3px solid rgba(255,255,255,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 auto .8rem;
+    }
+
+    .perfil-nombre {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: .2rem;
+    }
+
+    .perfil-email {
+      font-size: .78rem;
+      color: rgba(255,255,255,.65);
+    }
+
+    .perfil-rol {
+      display: inline-block;
+      margin-top: .6rem;
+      padding: .25rem .9rem;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .rol-admin   { background: var(--dorado); color: #fff; }
+    .rol-premium { background: rgba(255,255,255,.25); color: #fff; }
+    .rol-free    { background: rgba(255,255,255,.12); color: rgba(255,255,255,.8); }
+
+    .perfil-body {
+      padding: 1.4rem;
+    }
+
+    /* Créditos display */
+    .creditos-display {
+      background: linear-gradient(135deg,
+        rgba(201,147,58,.12), rgba(122,26,46,.08));
+      border: 1.5px solid rgba(201,147,58,.25);
+      border-radius: var(--radius-sm);
+      padding: 1.2rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .cd-label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-muted);
+      margin-bottom: .3rem;
+    }
+
+    .cd-numero {
+      font-family: var(--font-title);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--vino);
+      line-height: 1;
+    }
+
+    [data-theme="dark"] .cd-numero { color: var(--dorado-light); }
+
+    .cd-sub {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-top: .3rem;
+    }
+
+    /* Stats del perfil */
+    .perfil-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .7rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .ps-item {
+      background: var(--bg-alt);
+      border-radius: var(--radius-sm);
+      padding: .8rem;
+      text-align: center;
+    }
+
+    .ps-num {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--vino);
+      line-height: 1;
+      display: block;
+    }
+
+    [data-theme="dark"] .ps-num { color: var(--dorado-light); }
+
+    .ps-lbl {
+      font-size: .68rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: .2rem;
+      display: block;
+    }
+
+    /* Botones del perfil */
+    .perfil-btns {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    .pbtn {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .7rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--tr);
+      text-decoration: none;
+      font-family: var(--font-body);
+      width: 100%;
+      text-align: left;
+    }
+
+    .pbtn:hover {
+      border-color: var(--vino);
+      color: var(--vino);
+      background: var(--vino-light);
+    }
+
+    .pbtn.pbtn-danger {
+      border-color: rgba(192,57,43,.25);
+      color: var(--rojo);
+    }
+
+    .pbtn.pbtn-danger:hover {
+      background: rgba(192,57,43,.06);
+      border-color: var(--rojo);
+    }
+
+    .pbtn .pbtn-icon {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* ── CONTENIDO DERECHA ── */
+    .perfil-tabs { margin-bottom: 1.5rem; }
+
+    /* Historial */
+    .historial-item {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .9rem 1rem;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      margin-bottom: .6rem;
+      transition: var(--tr);
+    }
+
+    .historial-item:hover {
+      border-color: var(--border-med);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hi-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .hi-ganado  { background: rgba(26,122,58,.1); }
+    .hi-gastado { background: rgba(192,57,43,.1); }
+    .hi-recargado { background: var(--dorado-bg); }
+    .hi-admin   { background: var(--purpura-light); }
+
+    .hi-info { flex: 1 }
+
+    .hi-concepto {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .hi-fecha {
+      font-size: .72rem;
+      color: var(--text-muted);
+      margin-top: .1rem;
+    }
+
+    .hi-cantidad {
+      font-weight: 900;
+      font-size: .95rem;
+    }
+
+    .hi-cantidad.pos { color: var(--verde); }
+    .hi-cantidad.neg { color: var(--rojo); }
+
+    /* Mis archivos */
+    .archivo-item {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .9rem 1rem;
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      margin-bottom: .6rem;
+    }
+
+    .ai-icon {
+      font-size: 1.5rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--vino-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ai-info { flex: 1 }
+
+    .ai-titulo {
+      font-weight: 700;
+      font-size: .88rem;
+      color: var(--text-primary);
+    }
+
+    .ai-meta {
+      font-size: .74rem;
+      color: var(--text-muted);
+      margin-top: .15rem;
+    }
+
+    /* Modal cambiar contraseña */
+    .pass-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(8,5,15,.72);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .pass-modal.open {
+      display: flex;
+      animation: fadeIn .25s ease;
+    }
+
+    @media (max-width: 860px) {
+      .perfil-grid {
+        grid-template-columns: 1fr;
+      }
+      .perfil-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-progress"></div>
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Geo<span>Painite</span></h1>
+    <nav class="nav" id="main-nav">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="repositorio.html">Repositorio</a></li>
+        <li><a href="comunidad.html">Comunidad</a></li>
+        <li><a href="creditos.html">Créditos</a></li>
+        <li><a href="tienda.html">Tienda</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="dark-toggle" id="dark-toggle">🌙</button>
+      <div id="auth-wrap"></div>
+      <button class="nav-toggle" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h2>Mi Perfil</h2>
+    <p>Gestiona tu cuenta, revisa tus créditos y ve tu historial de actividad.</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="perfil-grid" id="perfil-grid" style="display:none">
+
+    <!-- ── COLUMNA IZQUIERDA ── -->
+    <div class="perfil-card">
+      <div class="perfil-header">
+        <div class="perfil-avatar-big" id="p-avatar">?</div>
+        <div class="perfil-nombre" id="p-nombre">Cargando...</div>
+        <div class="perfil-email"  id="p-email">—</div>
+        <span class="perfil-rol" id="p-rol-badge">free</span>
+      </div>
+
+      <div class="perfil-body">
+
+        <!-- Créditos -->
+        <div class="creditos-display">
+          <div class="cd-label">💰 Mis créditos</div>
+          <div class="cd-numero" id="p-creditos">—</div>
+          <div class="cd-sub">créditos disponibles</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="perfil-stats">
+          <div class="ps-item">
+            <span class="ps-num" id="p-ganados">—</span>
+            <span class="ps-lbl">Ganados total</span>
+          </div>
+          <div class="ps-item">
+            <span class="ps-num" id="p-gastados">—</span>
+            <span class="ps-lbl">Gastados total</span>
+          </div>
+          <div class="ps-item">
+            <span class="ps-num" id="p-archivos-count">—</span>
+            <span class="ps-lbl">Archivos subidos</span>
+          </div>
+          <div class="ps-item">
+            <span class="ps-num" id="p-descargas-count">—</span>
+            <span class="ps-lbl">Descargas hoy</span>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="perfil-btns">
+          <a href="creditos.html" class="pbtn">
+            <span class="pbtn-icon">💰</span>
+            Comprar créditos
+          </a>
+          <a href="comunidad.html" class="pbtn">
+            <span class="pbtn-icon">📤</span>
+            Subir material y ganar
+          </a>
+          <button class="pbtn" onclick="abrirCambiarPass()">
+            <span class="pbtn-icon">🔑</span>
+            Cambiar contraseña
+          </button>
+          <div style="height:.3rem;border-top:1px solid var(--border);margin:.3rem 0"></div>
+          <button class="pbtn pbtn-danger" onclick="cerrarSesion()">
+            <span class="pbtn-icon">🚪</span>
+            Cerrar sesión
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── COLUMNA DERECHA ── -->
+    <div>
+
+      <div class="tabs-bar perfil-tabs">
+        <button class="tab-btn active" data-tab="historial">📈 Historial de créditos</button>
+        <button class="tab-btn" data-tab="mis-archivos">📁 Mis archivos</button>
+        <button class="tab-btn" data-tab="descargas">⬇ Mis descargas</button>
+      </div>
+
+      <!-- Historial -->
+      <div class="tab-pane active" id="tab-historial">
+        <div id="lista-historial">
+          <div style="text-align:center;padding:2rem;color:var(--text-muted)">
+            Cargando historial...
+          </div>
+        </div>
+      </div>
+
+      <!-- Mis archivos subidos -->
+      <div class="tab-pane" id="tab-mis-archivos">
+        <div id="lista-mis-archivos">
+          <div style="text-align:center;padding:2rem;color:var(--text-muted)">
+            Cargando archivos...
+          </div>
+        </div>
+      </div>
+
+      <!-- Mis descargas -->
+      <div class="tab-pane" id="tab-descargas">
+        <div id="lista-descargas">
+          <div style="text-align:center;padding:2rem;color:var(--text-muted)">
+            Cargando descargas...
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mensaje si no está logueado -->
+  <div id="no-login-msg" style="display:none;text-align:center;padding:4rem 1rem">
+    <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
+    <h3 style="font-family:var(--font-title);color:var(--vino);margin-bottom:.8rem">
+      Inicia sesión para ver tu perfil
+    </h3>
+    <p style="color:var(--text-muted);margin-bottom:1.5rem">
+      Necesitas una cuenta para acceder a tu perfil y créditos.
+    </p>
+    <button class="btn" onclick="ModalAuth.open()">
+      Iniciar sesión
+    </button>
+  </div>
+
+</main>
+
+<!-- MODAL CAMBIAR CONTRASEÑA -->
+<div class="pass-modal" id="modal-pass">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>🔑 Cambiar contraseña</h3>
+      <button class="modal-close" onclick="cerrarPass()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1.2rem">
+        Se enviará un email a tu correo con el enlace para cambiar tu contraseña.
+      </p>
+      <p style="font-size:.9rem;font-weight:700;color:var(--text-primary);margin-bottom:1.2rem"
+         id="pass-email-display">—</p>
+      <button class="btn" style="width:100%;justify-content:center"
+        id="btn-enviar-pass" onclick="enviarResetPass()">
+        📧 Enviar email de recuperación
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="creditos.html">Créditos</a>
+      <a href="comunidad.html">Comunidad</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <p>&copy; 2026 GeoPainite &nbsp;|&nbsp;
+      <a href="privacidad.html">Política de Privacidad</a>
+    </p>
+  </div>
+</footer>
+
+<button id="back-top">↑</button>
+<div id="toast-container"></div>
+
+<script type="module" src="js/supabase.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/creditos.js"></script>
+<script type="module" src="js/core.js"></script>
+<script src="js/calculadoras.js"></script>
+
+<script type="module">
+  import { supabase } from './js/supabase.js'
+  import { Auth }     from './js/auth.js'
+
+  let perfilUsuario = null
+
+  /* ── INICIALIZAR ── */
+  async function init() {
+    const logged = await Auth.isLogged()
+
+    if (!logged) {
+      document.getElementById('no-login-msg').style.display = 'block'
+      return
+    }
+
+    perfilUsuario = await Auth.getUser()
+    if (!perfilUsuario) {
+      document.getElementById('no-login-msg').style.display = 'block'
+      return
+    }
+
+    document.getElementById('perfil-grid').style.display = 'grid'
+    renderPerfil(perfilUsuario)
+    cargarHistorial(perfilUsuario.id)
+    cargarMisArchivos(perfilUsuario.id)
+    cargarMisDescargas(perfilUsuario.id)
+  }
+
+  /* ── RENDER PERFIL ── */
+  function renderPerfil(p) {
+    document.getElementById('p-avatar').textContent =
+      p.nombre.charAt(0).toUpperCase()
+    document.getElementById('p-nombre').textContent  = p.nombre
+    document.getElementById('p-email').textContent   = p.email
+    document.getElementById('p-creditos').textContent = p.creditos
+
+    const rolBadge = document.getElementById('p-rol-badge')
+    rolBadge.textContent = p.rol
+    rolBadge.className = `perfil-rol rol-${p.rol}`
+
+    document.getElementById('p-ganados').textContent  = p.creditos_ganados  || 0
+    document.getElementById('p-gastados').textContent = p.creditos_gastados || 0
+    document.getElementById('p-descargas-count').textContent = p.descargas_hoy || 0
+
+    // Email en modal contraseña
+    const passEl = document.getElementById('pass-email-display')
+    if (passEl) passEl.textContent = p.email
+  }
+
+  /* ── HISTORIAL DE CRÉDITOS ── */
+  async function cargarHistorial(userId) {
+    const { data } = await supabase
+      .from('transacciones')
+      .select('*')
+      .eq('usuario_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(30)
+
+    const lista = document.getElementById('lista-historial')
+
+    if (!data?.length) {
+      lista.innerHTML = `
+        <div style="text-align:center;padding:3rem;color:var(--text-muted)">
+          <div style="font-size:2.5rem;margin-bottom:.5rem">📊</div>
+          <p>Aún no tienes movimientos de créditos.</p>
+        </div>`
+      return
+    }
+
+    const iconos = {
+      ganado:    { icon: '📈', clase: 'hi-ganado',   signo: '+' },
+      gastado:   { icon: '📥', clase: 'hi-gastado',  signo: '' },
+      recargado: { icon: '💰', clase: 'hi-recargado', signo: '+' },
+      admin:     { icon: '👑', clase: 'hi-admin',    signo: '' },
+      bono:      { icon: '🎁', clase: 'hi-ganado',   signo: '+' }
+    }
+
+    lista.innerHTML = data.map(t => {
+      const info   = iconos[t.tipo] || { icon: '💎', clase: 'hi-ganado', signo: '' }
+      const esPos  = t.cantidad > 0
+      const fecha  = new Date(t.created_at).toLocaleDateString('es-PE', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      })
+      return `
+        <div class="historial-item">
+          <div class="hi-icon ${info.clase}">${info.icon}</div>
+          <div class="hi-info">
+            <div class="hi-concepto">${t.concepto || t.tipo}</div>
+            <div class="hi-fecha">${fecha}</div>
+          </div>
+          <div class="hi-cantidad ${esPos ? 'pos' : 'neg'}">
+            ${esPos ? '+' : ''}${t.cantidad} cr.
+          </div>
+          <div style="font-size:.75rem;color:var(--text-muted);text-align:right;min-width:60px">
+            💰 ${t.saldo_nuevo ?? '—'}
+          </div>
+        </div>`
+    }).join('')
+  }
+
+  /* ── MIS ARCHIVOS SUBIDOS ── */
+  async function cargarMisArchivos(userId) {
+    const { data } = await supabase
+      .from('archivos')
+      .select('*')
+      .eq('subido_por', userId)
+      .order('created_at', { ascending: false })
+
+    const lista = document.getElementById('lista-mis-archivos')
+
+    // Actualizar contador
+    document.getElementById('p-archivos-count').textContent = data?.length || 0
+
+    if (!data?.length) {
+      lista.innerHTML = `
+        <div style="text-align:center;padding:3rem;color:var(--text-muted)">
+          <div style="font-size:2.5rem;margin-bottom:.5rem">📭</div>
+          <p>Aún no has subido ningún archivo.</p>
+          <a href="comunidad.html" class="btn btn-sm" style="margin-top:1rem">
+            Subir material →
+          </a>
+        </div>`
+      return
+    }
+
+    const estadoBadge = {
+      aprobado:  'background:rgba(26,122,58,.1);color:var(--verde)',
+      pendiente: 'background:rgba(201,147,58,.1);color:var(--dorado)',
+      rechazado: 'background:rgba(192,57,43,.1);color:var(--rojo)'
+    }
+
+    const iconos = {
+      pdf:'📄', imagen:'🖼', examen:'📝',
+      apunte:'📒', tesis:'🎓', practica:'🔬', ppt:'📊'
+    }
+
+    lista.innerHTML = data.map(a => `
+      <div class="archivo-item">
+        <div class="ai-icon">${iconos[a.tipo] || '📄'}</div>
+        <div class="ai-info">
+          <div class="ai-titulo">${a.titulo}</div>
+          <div class="ai-meta">
+            ${a.tipo} · ${a.categoria} ·
+            💰 ${a.costo_descargar} cr. ·
+            ${a.descargas || 0} descargas
+          </div>
+        </div>
+        <span style="padding:.2rem .7rem;border-radius:20px;font-size:.72rem;font-weight:800;${estadoBadge[a.estado] || ''}">
+          ${a.estado}
+        </span>
+      </div>`).join('')
+  }
+
+  /* ── MIS DESCARGAS ── */
+  async function cargarMisDescargas(userId) {
+    const { data } = await supabase
+      .from('accesos')
+      .select('*, archivos(titulo, tipo, categoria)')
+      .eq('usuario_id', userId)
+      .eq('tipo', 'descarga')
+      .order('created_at', { ascending: false })
+      .limit(20)
+
+    const lista = document.getElementById('lista-descargas')
+
+    if (!data?.length) {
+      lista.innerHTML = `
+        <div style="text-align:center;padding:3rem;color:var(--text-muted)">
+          <div style="font-size:2.5rem;margin-bottom:.5rem">📭</div>
+          <p>Aún no has descargado ningún archivo.</p>
+          <a href="repositorio.html" class="btn btn-sm" style="margin-top:1rem">
+            Ver material disponible →
+          </a>
+        </div>`
+      return
+    }
+
+    const iconos = {
+      pdf:'📄', imagen:'🖼', examen:'📝',
+      apunte:'📒', tesis:'🎓', practica:'🔬', ppt:'📊'
+    }
+
+    lista.innerHTML = data.map(a => {
+      const fecha = new Date(a.created_at).toLocaleDateString('es-PE', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      })
+      return `
+        <div class="archivo-item">
+          <div class="ai-icon">
+            ${iconos[a.archivos?.tipo] || '📄'}
+          </div>
+          <div class="ai-info">
+            <div class="ai-titulo">${a.archivos?.titulo || 'Archivo eliminado'}</div>
+            <div class="ai-meta">
+              ${a.archivos?.tipo || '—'} ·
+              ${a.archivos?.categoria || '—'} ·
+              Descargado el ${fecha}
+            </div>
+          </div>
+          <span style="font-size:.78rem;font-weight:700;color:var(--rojo)">
+            −${a.creditos_cobrados || 0} cr.
+          </span>
+        </div>`
+    }).join('')
+  }
+
+  /* ── TABS ── */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'))
+      btn.classList.add('active')
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active')
+    })
+  })
+
+  /* ── CERRAR SESIÓN ── */
+  window.cerrarSesion = async function() {
+    if (!confirm('¿Seguro que quieres cerrar sesión?')) return
+    await Auth.logout()
+  }
+
+  /* ── CAMBIAR CONTRASEÑA ── */
+  window.abrirCambiarPass = function() {
+    document.getElementById('modal-pass').classList.add('open')
+  }
+
+  window.cerrarPass = function() {
+    document.getElementById('modal-pass').classList.remove('open')
+  }
+
+  window.enviarResetPass = async function() {
+    if (!perfilUsuario) return
+    const btn = document.getElementById('btn-enviar-pass')
+    btn.textContent = 'Enviando...'
+    btn.disabled = true
+
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      perfilUsuario.email,
+      { redirectTo: window.location.origin + '/perfil.html' }
+    )
+
+    if (error) {
+      Toast.show('Error al enviar email', 'error')
+    } else {
+      Toast.show('📧 Email enviado. Revisa tu correo.', 'success', 5000)
+      cerrarPass()
+    }
+
+    btn.textContent = '📧 Enviar email de recuperación'
+    btn.disabled = false
+  }
+
+  document.getElementById('modal-pass').addEventListener('click', e => {
+    if (e.target.id === 'modal-pass') cerrarPass()
+  })
+
+  /* ── TOAST ── */
+  window.Toast = {
+    show(msg, type = 'info', duration = 3500) {
+      const c = document.getElementById('toast-container')
+      const icons = { success:'✓', error:'⚠', info:'💎' }
+      const el = document.createElement('div')
+      el.className = `toast toast-${type}`
+      el.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span>${msg}</span>`
+      c.appendChild(el)
+      setTimeout(() => {
+        el.classList.add('toast-out')
+        setTimeout(() => el.remove(), 350)
+      }, duration)
+    }
+  }
+
+  init()
+</script>
+</body>
+</html>

@@ -132,7 +132,28 @@ async function getDeviceHash() {
 /* ══════════════════════════════════════════════
    ACTUALIZAR UI
 ══════════════════════════════════════════════ */
-export async function updateAuthUI(perfil) {
+wrap.innerHTML = `
+  <a href="/perfil.html" class="user-pill" style="text-decoration:none">
+    <div class="avatar">
+      ${perfil.nombre.charAt(0).toUpperCase()}
+    </div>
+    <span>${perfil.nombre.split(' ')[0]}</span>
+    <span class="user-creditos">💰 ${perfil.creditos}</span>
+    ${perfil.rol !== 'free'
+      ? `<span style="font-size:.65rem">${rolIcon[perfil.rol]}</span>`
+      : ''}
+  </a>
+  ${perfil.rol === 'admin'
+    ? `<a href="/admin/index.html"
+         style="padding:.28rem .65rem;border:1.5px solid var(--border);
+         border-radius:30px;font-size:.73rem;font-weight:600;
+         color:var(--vino);text-decoration:none">
+         👑 Admin
+       </a>`
+    : ''}
+  <button id="btn-logout" onclick="Auth.logout()">Salir</button>
+`
+/*export async function updateAuthUI(perfil) {
   const wrap = document.getElementById('auth-wrap')
   if (!wrap) return
 
@@ -164,7 +185,7 @@ export async function updateAuthUI(perfil) {
       <button id="btn-login" onclick="ModalAuth.open()">Ingresar</button>
     `
   }
-}
+}*/
 
 /* ══════════════════════════════════════════════
    MODAL AUTH

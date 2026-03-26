@@ -271,6 +271,7 @@ import { Auth, ModalAuth } from './auth.js'
 
 /* ── BOOT ── */
 document.addEventListener('DOMContentLoaded', () => {
+  DarkMode.init()   // ← esta línea es clave
   Auth.init()
   Buscador.init()
   ScrollReveal.init()
@@ -280,7 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters()
   initStars()
 
-  // Aplicar tema guardado
   const tema = localStorage.getItem('gp_theme')
   if (tema) document.documentElement.setAttribute('data-theme', tema)
 })
